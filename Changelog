@@ -1,3 +1,10 @@
+1.4
+Documentation fixes
+Correction of parscale in optim section of starship()
+
+1.3
+Added qqgl - make QQ plots for data against specified gld
+
 1.2
 INDEX file correction
 

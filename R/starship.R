@@ -8,10 +8,12 @@ else 	{
 	gridmin <- starship.adaptivegrid(data,initgrid$lcvect,initgrid$ldvect, 
 		param=param)
 	}
-# If they haven't sent any control parameters
+# If they haven't sent any control parameters, scale by max(lambda1,1),
+# lambda2 (can't be <= 0), don't scale for lambda3, lambda4
 if (is.null(optim.control) ) {
 	optim.control <- list(
-		parscale=c(abs(gridmin$lambda[1]),abs(gridmin$lambda[2]),1,1))
+		parscale=c(max(1,abs(gridmin$lambda[1])),abs(gridmin$lambda[2]),
+		1,1))
 	}
 # else use what they sent - this should allow them to change other stuff in the
 # control while keeping parscale 

@@ -47,7 +47,7 @@ rgl(n, lambda1, lambda2, lambda3, lambda4, param="fmkl")
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
   \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
-    	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
+	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
   \item{max.iterations}{Maximum number of iterations in the numerical 
 	determination of \eqn{F(x)}, defaults to 500}
 }
@@ -121,5 +121,7 @@ generating asymmetric random variables}, Communications of the ACM \bold{17},
 
 \examples{
 qgl(seq(0,1,0.02),0,1,0.123,-4.3)
+pgl(seq(-2,2,0.2),0,1,-.1,-.2,param="fmkl",inverse.eps=.Machine$double.eps)
+# calculate the probabilities more accurately than normal
 }
 \keyword{distribution}

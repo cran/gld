@@ -6,7 +6,7 @@ generalised lambda distribution.  It does for the generalised lambda
 distribution what \code{\link{qqnorm}} does for the normal.
 }
 \usage{
-qqgl(y, lambda1, lambda2, lambda3, lambda4, param = "fmkl", abline = T, ...)
+qqgl(y, lambda1, lambda2, lambda3, lambda4, param = "fmkl", abline = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
