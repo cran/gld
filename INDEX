@@ -8,3 +8,5 @@ qdgld                    quantile densities of the generalised lambda
 			 distribution
 gl.check.lambda          Function to check the validity of parameters of
                          the generalized lambda  distribution
+plotgld                  Plot probability density functions of the generalised lambda distribution
+plotglc                  Plot distribution functions of the generalised lambda distribution

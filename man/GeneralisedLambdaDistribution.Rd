@@ -9,6 +9,7 @@
 \alias{qgl.rs}
 \alias{rgl}
 \alias{GeneralizedLambdaDistribution}
+\alias{GeneralisedLambdaDistribution}
 \alias{gld}
 \title{The Generalised Lambda Distribution}
 \description{Density, quantile density, distribution function, quantile 

@@ -1,4 +1,4 @@
-gl.check.lambda _ function(lambda1,lambda2,lambda3,lambda4,param="fmkl")
+gl.check.lambda <- function(lambda1,lambda2,lambda3,lambda4,param="fmkl")
 # Checks to see that the lambda values given are allowed.
 {
 # Check all the parameters are finite
@@ -11,8 +11,8 @@ param <- switch(param,
 	frm=,  # allows for alternate expressions
 	FMKL=,
 	fmkl={
-	if (lambda2<=0) {ret _ FALSE}
-	else {ret _ TRUE}
+	if (lambda2<=0) {ret <- FALSE}
+	else {ret <- TRUE}
 	},
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
@@ -22,12 +22,12 @@ param <- switch(param,
 				 # all values of lambda 3 and lambda 4 OK
 				 # check lambda 2
 		if ((lambda3>0)&(lambda4>0)) { # region 3 - l2 >0
-			if (lambda2<=0) {ret _ FALSE}
-			else {ret _ TRUE}
+			if (lambda2<=0) {ret <- FALSE}
+			else {ret <- TRUE}
 			}
 		if ((lambda3<0)&(lambda4<0)) { # region 4 - l2 <0
-			if (lambda2>=0) {ret _ FALSE}
-			else {ret _ TRUE}
+			if (lambda2>=0) {ret <- FALSE}
+			else {ret <- TRUE}
 			}
 		}	
 	else { 	# other quadrants - lambda 2 must be negative, and lambda3 
@@ -41,8 +41,8 @@ param <- switch(param,
 		# 
 		# Curved regions where RS is not defined
 		# change to shorter var names
-		lc _ lambda3
-		ld _ lambda4
+		lc <- lambda3
+		ld <- lambda4
 		if ((lambda3>-1)&(lambda3<0)&(lambda4>1)) {  # region 5 or not?
 			if ( ((1-lc)^(1-lc)*(ld-1)^(ld-1))/((ld-lc)^(ld-lc)) > -lc/ld )	
 				{return(FALSE)}
@@ -65,7 +65,7 @@ param <- switch(param,
 			return(FALSE)
 			}
 		# If we get here, then the parameters are OK.
-		ret _ TRUE
+		ret <- TRUE
 		}
 	},
 	stop("Error when checking validity of parameters.\n Parameterisation must be either fmkl or rs")
@@ -74,12 +74,13 @@ ret
 }
 
 
-qgl.fmkl _ function(p,lambda1,lambda2,lambda3,lambda4)
+qgl.fmkl <- function(p,lambda1,lambda2,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
-	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
+        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
+"\ndo not produce a proper distribution with the FMKL parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 # If OK, determine special cases
 if (lambda3 == 0) { 
@@ -97,27 +98,28 @@ else 	{ # lambda3 non-zero
 			((u^lambda3 - 1)/lambda3 - log(1 - u))/lambda2
 		}
 	else	{ # both non-zero - use usual formula
-		quants _ lambda1 + ( ( u ^ lambda3 - 1)	/ lambda3 
+		quants <- lambda1 + ( ( u ^ lambda3 - 1)	/ lambda3 
 			- ( (1-u)^lambda4 - 1) /lambda4 ) / lambda2
 		}
 	}
 quants
 }
 
-qgl.rs _ function(p,lambda1,lambda2,lambda3,lambda4)
+qgl.rs <- function(p,lambda1,lambda2,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
-	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
+        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
+"\ndo not produce a proper distribution with the RS parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 # At present, I'm rejecting zero values for l3 and l4, though I think there 
 # are limit results, so one functional form.
-quants _ lambda1 + ( u ^ lambda3 - (1-u)^lambda4 ) / lambda2
+quants <- lambda1 + ( u ^ lambda3 - (1-u)^lambda4 ) / lambda2
 quants
 }
 
-qgl _ function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
+qgl <- function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
 u <- p
 result <- switch(param,  
@@ -135,7 +137,7 @@ result <- switch(param,
 result
 }
 
-qdgl _ function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
+qdgl <- function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
 u <- p
 result <- switch(param,  
@@ -147,33 +149,37 @@ result <- switch(param,
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
 	RS=,
-	rs=qdgl.fmkl(u,lambda1,lambda2,lambda3,lambda4),
+	rs=qdgl.rs(u,lambda1,lambda2,lambda3,lambda4),
 	stop("Error: Parameterisation must be either fmkl or rs")
 	) # closes "switch"
 result
 }
 
 
-qdgl.rs _ function(p,lambda1=0,lambda2=1,lambda3,lambda4)
+qdgl.rs <- function(p,lambda1=0,lambda2=1,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
-	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
+        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
-dens _  lambda1/(lambda3 * (u^(lambda3 -1)) + lambda4 * ((1 - u)^(lambda4 -1)))
+dens <-  lambda2/(lambda3 * (u^(lambda3 -1)) + lambda4 * ((1 - u)^(lambda4 -1)))
 dens
 }
 
 
-qdgl.fmkl _ function(p,lambda1,lambda2,lambda3,lambda4)
+qdgl.fmkl <- function(p,lambda1,lambda2,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
-	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
+        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 # The density is given by 1/Q'(u)
-dens _ lambda2/(u^(lambda3 - 1) + (1 - u)^(lambda4 - 1))
+dens <- lambda2/(u^(lambda3 - 1) + (1 - u)^(lambda4 - 1))
 dens
 }
