@@ -12,9 +12,12 @@ distribution}
 gl.check.lambda(lambda1, lambda2, lambda3, lambda4, param="fmkl")
 }
 \arguments{
- \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters
-        is different to that used by Freimer, Mudholkar, Kollia and Lin (1988).}
-  \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter}
+  \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter
+% This note needed to be put inside an item, other R cmd check can't find
+% the documentation for the other arguments
+  \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters 
+	is different to that used by Freimer, Mudholkar, Kollia and Lin.}
+	}
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter}
   \item{lambda3}{\eqn{\lambda_3}{lambda 3} - first shape parameter}
   \item{lambda4}{\eqn{\lambda_4}{lambda 4} - second shape parameter}
@@ -72,10 +75,8 @@ Equation 2
 }
 
 }
-\value{\description{
-\item{TRUE}{If the values given produce a valid statistical distribution}
-\item{FALSE}{If they don't}
-}
+\value{This logical function takes on a value of TRUE if the parameter values 
+given produce a valid statistical distribution and FALSE if they don't}
 \references{ Freimer, M., Mudholkar, G. S., Kollia, G. & Lin, C. T. (1988),
         \emph{A study of the generalized tukey lambda family}, Communications
        in Statistics - Theory and Methods \bold{17}, 3547--3567.
@@ -93,8 +94,7 @@ generating asymmetric random variables}, Communications of the ACM \bold{17},
 
 \url{http://maths.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au},
-\url{http://maths.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}}
 \note{The complex nature of the rules in this function for the RS
 parameterisation are the reason for the invention of the FMKL
 parameterisation and its status as the default parameterisation in the other

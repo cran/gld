@@ -33,9 +33,12 @@ rgl(n, lambda1, lambda2, lambda3, lambda4, param="fmkl")
   \item{x,q}{vector of quantiles.}
   \item{p}{vector of probabilities.}
   \item{n}{number of observations.}
+  \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter
+% This note needed to be put inside an item, other R cmd check can't find
+% the documentation for the other arguments
   \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters 
 	is different to that used by Freimer, Mudholkar, Kollia and Lin.}
-  \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter}
+	}
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter}
   \item{lambda3}{\eqn{\lambda_3}{lambda 3} - first shape parameter}
   \item{lambda4}{\eqn{\lambda_4}{lambda 4} - second shape parameter}
@@ -113,7 +116,7 @@ generating asymmetric random variables}, Communications of the ACM \bold{17},
 
 \url{http://maths.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}}
 
 \examples{
 qgl(seq(0,1,0.02),0,1,0.123,-4.3)
