@@ -13,10 +13,10 @@ uses the depths to produce the values to plot is more efficient
 }
 \usage{
 plotgld(lambda1 = 0, lambda2 = 1, lambda3, lambda4, param = "fmkl", 
-new.plot = TRUE, truncate = 0, bnw = FALSE, col.or.type = 3, granularity = 4000, xlab = NULL, ylab 
-= NULL, quant.probs = seq(0,1,.25), ...)
-plotglc(lambda1 = 0, lambda2 = 1, lambda3, lambda4, param = "fmkl", granularity 
-= 4000, xlab = "x", ylab = "cumulative probability", ...)
+new.plot = TRUE, truncate = 0, bnw = FALSE, col.or.type = 1, 
+granularity = 4000, xlab = NULL, ylab = NULL, quant.probs = seq(0,1,.25), ...)
+plotglc(lambda1 = 0, lambda2 = 1, lambda3, lambda4, param = "fmkl", 
+granularity = 4000, xlab = "x", ylab = "cumulative probability", ...)
 }
 \arguments{
   \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter
@@ -47,7 +47,7 @@ densities identified using line colour (\code{col})}
   \item{ylab}{Y axis label}
   \item{quant.probs}{Quantiles of distribution to return (see \em{value}
 below).  Set to NULL to suppress this return entirely.}
-  \item{...}{arguments that get passed to \code{plot}}
+  \item{...}{arguments that get passed to \code{plot} if this is a new plot}
 }
 \details{
 The generalised lambda distribution is defined in terms of its quantile
@@ -86,7 +86,8 @@ Methods}, CRC Press.
 
 \seealso{\code{\link{GeneralisedLambdaDistribution}}}
 \examples{
-plotgld(0,1.4640474,.1349,.1349,main="Approximation to Standard Normal", sub="But you can see this isn't on infinite support")
+plotgld(0,1.4640474,.1349,.1349,main="Approximation to Standard Normal", 
+sub="But you can see this isn't on infinite support")
 }
 
 plotgld(1.42857143,1,.7,.3,main="The whale")
@@ -97,10 +98,12 @@ plotgld(0,-1,5,-0.3,param="rs",xlim=c(1,2))
 plotgld(0,1,5,-0.3,param="fmkl")
 plotgld(10/3,,.3,-1,truncate=1e-3)
 
-plotgld(0,1,.0742,.0742,col.or.type=2,param="rs",main="All distributions have the same moments",sub="Full Range of all distributions")
+plotgld(0,1,.0742,.0742,col.or.type=2,param="rs",main="All distributions 
+have the same moments",sub="Full Range of all distributions")
 plotgld(0,1,6.026,6.026,col.or.type=3,new.plot=F,param="rs")
 plotgld(0,1,35.498,2.297,col.or.type=4,new.plot=F,param="rs")
-legend(0.25,3.5,lty=1,col=c(2,3,4),legend=c("(0,1,.0742,.0742)","(0,1,6.026,6.026)","(0,1,35.498,2.297)"),cex=0.9)
+legend(0.25,3.5,lty=1,col=c(2,3,4),legend=c("(0,1,.0742,.0742)",
+"(0,1,6.026,6.026)","(0,1,35.498,2.297)"),cex=0.9)
 # An illustration of problems with moments as a method of characterising shape
 
 \keyword{distribution}

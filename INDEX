@@ -1,12 +1,23 @@
 GeneralisedLambdaDistribution
-                         The Generalised Lambda Distribution
-rgld                     random numbers from the generalised lambda distribution
-qgld                     quantiles of the generalised lambda distribution
-pgld                     probabilities of the generalised lambda distribution
-dgld                     densities of the generalised lambda distribution
-qdgld                    quantile densities of the generalised lambda 
-			 distribution
-gl.check.lambda          Function to check the validity of parameters of
-                         the generalized lambda  distribution
-plotgld                  Plot probability density functions of the generalised lambda distribution
-plotglc                  Plot distribution functions of the generalised lambda distribution
+                        The Generalised Lambda Distribution
+rgld                    random numbers from the generalised lambda distribution
+qgld                    quantiles of the generalised lambda distribution
+pgld                    probabilities of the generalised lambda distribution
+dgld                    densities of the generalised lambda distribution
+qdgld                   quantile densities of the generalised lambda 
+	        	distribution
+gl.check.lambda         Function to check the validity of parameters
+                        of the generalized lambda distribution
+plotgl                  Plots of density and distribution function for
+                        the generalised lambda distribution
+plotgld                 Plot probability density functions of the generalised 
+			lambda distribution
+plotglc                 Plot distribution functions of the generalised 
+			lambda distribution
+starship                Carry out the "starship" estimation method for
+                        the generalised lambda distribution
+starship.adaptivegrid   Carry out the "starship" estimation method for
+                        the generalised lambda distribution using a
+                        grid-based search
+starship.obj            Objective function that is minimised in
+                        starship estimation method

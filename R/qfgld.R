@@ -76,12 +76,16 @@ ret
 
 qgl.fmkl <- function(p,lambda1,lambda2,lambda3,lambda4)
 {
-u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
         stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
 "\ndo not produce a proper distribution with the FMKL parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
+# abandoned this for the simpler
+# outside.range <- !as.logical(((p<1)*(p>0))|(sapply(p, all.equal,1)=="TRUE")| (sapply(p, all.equal, 0)=="TRUE"))
+outside.range <- !as.logical((p<=1)*(p>=0))
+# u gets only the probabilities in [0,1]
+u <- p[!outside.range]
 # If OK, determine special cases
 if (lambda3 == 0) { 
 	if (lambda4 == 0) { # both log
@@ -102,7 +106,12 @@ else 	{ # lambda3 non-zero
 			- ( (1-u)^lambda4 - 1) /lambda4 ) / lambda2
 		}
 	}
-quants
+# Now we have the quantiles for p values inside [0,1], put them in the right
+# place in the result vector
+result <- p*NaN
+result[!outside.range] <- quants
+# The remaining "quantiles" are NaN
+result
 }
 
 qgl.rs <- function(p,lambda1,lambda2,lambda3,lambda4)

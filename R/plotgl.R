@@ -1,5 +1,5 @@
 plotgld <- function(lambda1 = 0, lambda2 = 1, lambda3, lambda4, param =
-"fmkl", new.plot = TRUE, truncate = 0, bnw = FALSE, col.or.type = 3, granularity = 4000, 
+"fmkl", new.plot = TRUE, truncate = 0, bnw = FALSE, col.or.type = 1, granularity = 4000, 
 xlab = NULL, ylab=NULL, quant.probs = seq(0,1,.25),...)
 {
 	if (is.null(xlab)){xlab <- "x"}
@@ -13,9 +13,17 @@ xlab = NULL, ylab=NULL, quant.probs = seq(0,1,.25),...)
 			if (is.null(ylab)){
 				ylab <- paste( "probability density (values below", deparse(substitute(truncate)), "not shown)")
 			}
-			plot(quantiles[density > truncate], density[density > 
-				truncate], type = "l", xlab = xlab, ylab =
-				ylab, ...) 
+			if(bnw) {
+				plot(quantiles[density > truncate], 
+				density[density > truncate], type = "l", 
+				xlab = xlab, ylab = ylab, lty = col.or.type,...)
+			}
+			else {
+				plot(quantiles[density > truncate], 
+				density[density > truncate], type = "l", 
+				xlab = xlab, ylab = ylab, col = col.or.type,...)
+			}
+
 		}
 		else {
 			if(bnw) {

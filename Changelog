@@ -1,0 +1,42 @@
+1.0.1
+Permissions correction
+
+1.0.0
+starship estimation, using grid or grid and optim
+Range checking
+Corrections from Steve Su
+
+0.9
+Corrections from David Scott
+Added plotgld
+
+0.8 
+improved error messages
+Fixed bug in qgl and qdgl for parameterisation RS (was using FMKL
+parameterisation values even if RS was requested)
+added alias for GeneralisedLamndaDistribution to
+GeneralisedLamndaDistribution.Rd as requested by Kurt
+
+0.7 
+Note that R CMD build complains about the INDEX file, but I want it the way I
+have it
+R CMD check changes to .Rd files
+
+0.6
+URL changes to Newcastle
+
+0.5 
+Took the mac makefile out again
+
+0.4
+Typo correction in man/
+Added mac makefile
+Added Maintainer field
+Corrections to DESCRIPTION
+
+0.3 
+First released to CRAN
+
+0.2
+0.1
+Internal versions 
