@@ -1,3 +1,9 @@
+1.6
+Documentation Example fixes
+
+1.5
+Fixed "assign long to int" bug in C code
+
 1.4
 Documentation fixes
 Correction of parscale in optim section of starship()

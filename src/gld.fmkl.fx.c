@@ -42,8 +42,8 @@ double *);
 /* the function that finds the root */
 
 void gl_fmkl_distfunc( double *pa,double *pb,double *pc,double *pd, 
-double  *pu1,double *pu2,double *pxacc, long *max_it,
-double *ecks, double *u, long *lengthofdata)
+double  *pu1,double *pu2,double *pxacc, int *max_it,
+double *ecks, double *u, int *lengthofdata)
 {
 
 /* pa to pd:    pointers to the values of the parameters of the gld (rs param)
