@@ -76,7 +76,14 @@ for (i=0;i<l;i++)
 	u[i] = 0.0;
 	funcd(x1,&fl,&df);
 	funcd(x2,&fh,&df);
-	if (fl*fh >= 0.0) exit();
+	if (fl*fh >= 0.0) {
+		fprintf(stderr,"Program aborted during calculation of F(x)");
+		fprintf(stderr,"at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
+		fprintf(stderr,"The x value being investigated was index: %d",i);
+		fprintf(stderr," value: %f\n",x);
+		exit(1);
+
+		}
 	if (fl < 0.0) {
 		xl = x1;
 		xh = x2;

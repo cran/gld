@@ -10,7 +10,6 @@
 \alias{rgl}
 \alias{GeneralizedLambdaDistribution}
 \alias{gld}
-%- Also NEED an `\alias' for EACH other topic documented here.
 \title{The Generalised Lambda Distribution}
 \description{Density, quantile density, distribution function, quantile 
 function and random generation for the generalised lambda distribution 
@@ -18,15 +17,15 @@ function and random generation for the generalised lambda distribution
 both the \code{fmkl} (recommended) and \code{rs} parameterisations.
 }
 \usage{
-dgl(x, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl",inverse.eps=1e-8)
-qdgl(p, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
+dgl(x, lambda1, lambda2, lambda3, lambda4, param="fmkl",inverse.eps=1e-8)
+qdgl(p, lambda1, lambda2, lambda3, lambda4, param="fmkl")
 qdgl.fmkl(p, lambda1, lambda2, lambda3, lambda4)
 qdgl.rs(p, lambda1, lambda2, lambda3, lambda4)
-pgl(q, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl",inverse.eps=1e-8)
-qgl(p, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
+pgl(q, lambda1, lambda2, lambda3, lambda4, param="fmkl",inverse.eps=1e-8)
+qgl(p, lambda1, lambda2, lambda3, lambda4, param="fmkl")
 qgl.fmkl(p, lambda1, lambda2, lambda3, lambda4)
 qgl.rs(p, lambda1, lambda2, lambda3, lambda4)
-rgl(n, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
+rgl(n, lambda1, lambda2, lambda3, lambda4, param="fmkl")
 }
 \arguments{
   \item{x,q}{vector of quantiles.}
@@ -38,7 +37,7 @@ rgl(n, lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter}
   \item{lambda3}{\eqn{\lambda_3}{lambda 3} - first shape parameter}
   \item{lambda4}{\eqn{\lambda_4}{lambda 4} - second shape parameter}
-  \item{parameterisation}{choose parameterisation: 
+  \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
   \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
@@ -58,7 +57,7 @@ and Lin (1988)} (see references below), with a quantile function:
 for \eqn{\lambda_2 > 0}{lambda2 >0}.
 
 The alternative parameterisation, chosen by setting
-\code{parameterisation="rs"} is that due to \emph{Ramberg and Schmeiser
+\code{param="rs"} is that due to \emph{Ramberg and Schmeiser
 (1974)}, with the quantile function:
 \deqn{F^{-1}(u)= \lambda_1 + \frac{u^{\lambda_3} - (1-u)^{\lambda_4}} 	%
 {\lambda_2} }{F inverse (u) = lambda1 + ( u^lambda3 - (1-u)^lambda4 ) / % 
@@ -72,7 +71,7 @@ The distribution is defined by its quantile function and the distribution and
 quantile functions do not exist in closed form.  Accordingly, the results 
 from \code{pgl} and \code{dgl} are the result of a numerical solutions to
 equations, using the Newton-Raphson method.  Since the quantile density
-function, \eqn{f(F^{-1}(u)}, does exist, an additional function, \code{qdgl},
+function, \eqn{f(F^{-1}(u))}, does exist, an additional function, \code{qdgl},
 is provided.
 
 \code{qdgl.fmkl} and \code{qdgl.rs} are versions of \code{qdgl} that assume the 

@@ -1,11 +1,11 @@
-gl.check.lambda _ function(lambda1,lambda2,lambda3,lambda4,parameterisation="fmkl")
+gl.check.lambda _ function(lambda1,lambda2,lambda3,lambda4,param="fmkl")
 # Checks to see that the lambda values given are allowed.
 {
 # Check all the parameters are finite
 if (sum(is.finite(c(lambda1,lambda2,lambda3,lambda4)))<4) 
 	{ return(FALSE)
 	}
-param <- switch(parameterisation,  
+param <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
@@ -78,7 +78,7 @@ qgl.fmkl _ function(p,lambda1,lambda2,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,parameterisation="fmkl")) {
+if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
 	}
 # If OK, determine special cases
@@ -107,7 +107,7 @@ quants
 qgl.rs _ function(u,lambda1,lambda2,lambda3,lambda4)
 {
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,parameterisation="rs")) {
+if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
 	}
 # At present, I'm rejecting zero values for l3 and l4, though I think there 
@@ -116,9 +116,9 @@ quants _ lambda1 + ( u ^ lambda3 - (1-u)^lambda4 ) / lambda2
 quants
 }
 
-qgl _ function(u,lambda1,lambda2,lambda3,lambda4,parameterisation="fmkl")
+qgl _ function(u,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
-result <- switch(parameterisation,  
+result <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
@@ -133,9 +133,9 @@ result <- switch(parameterisation,
 result
 }
 
-qdgl _ function(u,lambda1,lambda2,lambda3,lambda4,parameterisation="fmkl")
+qdgl _ function(u,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
-result <- switch(parameterisation,  
+result <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
@@ -154,7 +154,7 @@ result
 qdgl.rs _ function(u,lambda1=0,lambda2=1,lambda3,lambda4)
 {
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,parameterisation="rs")) {
+if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
 	}
 dens _  lambda1/(lambda3 * (u^(lambda3 -1)) + lambda4 * ((1 - u)^(lambda4 -1)))
@@ -166,7 +166,7 @@ qdgl.fmkl _ function(p,lambda1,lambda2,lambda3,lambda4)
 {
 u <- p
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,parameterisation="fmkl")) {
+if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
 	}
 # The density is given by 1/Q'(u)

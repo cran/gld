@@ -9,7 +9,7 @@ distribution}
   complex.
 }
 \usage{
-gl.check.lambda(lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
+gl.check.lambda(lambda1, lambda2, lambda3, lambda4, param="fmkl")
 }
 \arguments{
  \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters
@@ -18,7 +18,7 @@ gl.check.lambda(lambda1, lambda2, lambda3, lambda4, parameterisation="fmkl")
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter}
   \item{lambda3}{\eqn{\lambda_3}{lambda 3} - first shape parameter}
   \item{lambda4}{\eqn{\lambda_4}{lambda 4} - second shape parameter}
-  \item{parameterisation}{choose parameterisation:
+  \item{param}{choose parameterisation:
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
 }
