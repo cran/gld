@@ -75,12 +75,12 @@ This parameterisation has a complex series of rules determining which values
 of the parameters produce valid statistical distributions.  See 
 \link{gl.check.lambda} for details.
 
-The distribution is defined by its quantile function and the distribution and
-quantile functions do not exist in closed form.  Accordingly, the results 
+The distribution is defined by its quantile function and its distribution and
+density functions do not exist in closed form.  Accordingly, the results 
 from \code{pgl} and \code{dgl} are the result of a numerical solutions to
 equations, using the Newton-Raphson method.  Since the quantile density
 function, \eqn{f(F^{-1}(u))}, does exist, an additional function, \code{qdgl},
-is provided.
+computes this.
 
 \code{qdgl.fmkl} and \code{qdgl.rs} are versions of \code{qdgl} that assume the 
 FMKL and RS parameterisations, respectively.
