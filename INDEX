@@ -1,9 +1,9 @@
 GeneralisedLambdaDistribution
                         The Generalised Lambda Distribution
-rgld                    random numbers from the generalised lambda distribution
-qgld                    quantiles of the generalised lambda distribution
-pgld                    probabilities of the generalised lambda distribution
-dgld                    densities of the generalised lambda distribution
+rgl                     random numbers from the generalised lambda distribution
+qgl                     quantiles of the generalised lambda distribution
+pgl                     probabilities of the generalised lambda distribution
+dgl                     densities of the generalised lambda distribution
 qdgld                   quantile densities of the generalised lambda 
 	        	distribution
 gl.check.lambda         Function to check the validity of parameters
