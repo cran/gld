@@ -35,7 +35,7 @@ rgl(n, lambda1, lambda2, lambda3, lambda4, param="fmkl")
   \item{p}{vector of probabilities.}
   \item{n}{number of observations.}
   \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter
-% This note needed to be put inside an item, other R cmd check can't find
+% This note needed to be put inside an item, otherwise R cmd check can't find
 % the documentation for the other arguments
   \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters 
 	is different to that used by Freimer, Mudholkar, Kollia and Lin.}
