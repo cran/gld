@@ -104,8 +104,9 @@ else 	{ # lambda3 non-zero
 quants
 }
 
-qgl.rs _ function(u,lambda1,lambda2,lambda3,lambda4)
+qgl.rs _ function(p,lambda1,lambda2,lambda3,lambda4)
 {
+u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
@@ -116,8 +117,9 @@ quants _ lambda1 + ( u ^ lambda3 - (1-u)^lambda4 ) / lambda2
 quants
 }
 
-qgl _ function(u,lambda1,lambda2,lambda3,lambda4,param="fmkl")
+qgl _ function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
+u <- p
 result <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
@@ -133,8 +135,9 @@ result <- switch(param,
 result
 }
 
-qdgl _ function(u,lambda1,lambda2,lambda3,lambda4,param="fmkl")
+qdgl _ function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
 {
+u <- p
 result <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
@@ -151,8 +154,9 @@ result
 }
 
 
-qdgl.rs _ function(u,lambda1=0,lambda2=1,lambda3,lambda4)
+qdgl.rs _ function(p,lambda1=0,lambda2=1,lambda3,lambda4)
 {
+u <- p
 # Check the values are OK)
 if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
 	stop("illegal value for one of the parameters - see documentation for gl.check.lambda")

@@ -5,8 +5,8 @@ if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param)) {
         stop("illegal value for one of the parameters - see documentation for gl.check.lambda")
         }
 # Produce the uniform data
-u _ runif(n)
+p _ runif(n)
 # convert to gl
-res _ qgl(u,lambda1,lambda2,lambda3,lambda4,param)
+res _ qgl(p,lambda1,lambda2,lambda3,lambda4,param)
 res
 }

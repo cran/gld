@@ -17,11 +17,13 @@ function and random generation for the generalised lambda distribution
 both the \code{fmkl} (recommended) and \code{rs} parameterisations.
 }
 \usage{
-dgl(x, lambda1, lambda2, lambda3, lambda4, param="fmkl",inverse.eps=1e-8)
+dgl(x, lambda1, lambda2, lambda3, lambda4,
+param="fmkl",inverse.eps=1e-8,max.iterations=500)
 qdgl(p, lambda1, lambda2, lambda3, lambda4, param="fmkl")
 qdgl.fmkl(p, lambda1, lambda2, lambda3, lambda4)
 qdgl.rs(p, lambda1, lambda2, lambda3, lambda4)
-pgl(q, lambda1, lambda2, lambda3, lambda4, param="fmkl",inverse.eps=1e-8)
+pgl(q, lambda1, lambda2, lambda3, lambda4,
+param="fmkl",inverse.eps=1e-8,max.iterations=500)
 qgl(p, lambda1, lambda2, lambda3, lambda4, param="fmkl")
 qgl.fmkl(p, lambda1, lambda2, lambda3, lambda4)
 qgl.rs(p, lambda1, lambda2, lambda3, lambda4)
@@ -41,7 +43,9 @@ rgl(n, lambda1, lambda2, lambda3, lambda4, param="fmkl")
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
   \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
-    	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}
+    	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
+  \item{max.iterations}{Maximum number of iterations in the numerical 
+	determination of \eqn{F(x)}, defaults to 500}
 }
 \details{
 The generalised lambda distribution, also known as the asymmetric lambda, 
@@ -107,9 +111,9 @@ Ramberg, J. S. & Schmeiser, B. W. (1974), \emph{An approximate method for
 generating asymmetric random variables}, Communications of the ACM \bold{17}, 
 78--82.
 
-\url{http://www.ens.gu.edu.au/robertk/gld/}
+\url{http://maths.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@mailbox.gu.edu.au}, \url{http://www.ens.gu.edu.au/robertk/}}
+\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}
 
 \examples{
 qgl(seq(0,1,0.02),0,1,0.123,-4.3)
