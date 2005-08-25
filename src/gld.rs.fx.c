@@ -37,7 +37,7 @@ static double la, lb, lc, ld, x;
 /* the function that finds the root */
 
 void gl_rs_distfunc( double *pa,double *pb,double *pc,double *pd, 
-double  *px1,double *px2,double *pxacc, int max_it,
+double  *px1,double *px2,double *pxacc, int *max_it,
 double *ecks, double *u, int *pl)
 {
 
@@ -96,7 +96,7 @@ for (i=0;i<l;i++)
 	dxold = fabs(x2-x1);
 	dx = dxold;
 	funcd(rts,&f,&df);
-	for (j=1;j<= max_it;j++) {
+	for (j=1;j<= *max_it;j++) {
 		if ((((rts - xh)*df - f)* ( (rts-xl)*df - f) >= 0.0 ) ||
 ( fabs(2.0*f) > fabs (dxold*df))) {
 			dxold = dx;

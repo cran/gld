@@ -1,87 +1,34 @@
-gl.check.lambda <- function(lambda1,lambda2,lambda3,lambda4,param="fmkl")
-# Checks to see that the lambda values given are allowed.
+qgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL)
 {
-# Check all the parameters are finite
-if (sum(is.finite(c(lambda1,lambda2,lambda3,lambda4)))<4) 
-	{ return(FALSE)
+lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
+# Check the values are OK
+if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
+        stop(paste("The parameter values", paste(lambdas,collapse=" "),"\ndo not produce a proper distribution for the",param,"parameterisation \n - see documentation for gl.check.lambda"))
 	}
-param <- switch(param,  
-# Different tests apply for each parameterisation
+result <- switch(param,
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
-	fmkl={
-	if (lambda2<=0) {ret <- FALSE}
-	else {ret <- TRUE}
-	},
+	fmkl=.qgl.fmkl(p,lambdas),
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
 	RS=,
-	rs={
-	if (lambda3*lambda4>0) { # regions 3 and 4 
-				 # all values of lambda 3 and lambda 4 OK
-				 # check lambda 2
-		if ((lambda3>0)&(lambda4>0)) { # region 3 - l2 >0
-			if (lambda2<=0) {ret <- FALSE}
-			else {ret <- TRUE}
-			}
-		if ((lambda3<0)&(lambda4<0)) { # region 4 - l2 <0
-			if (lambda2>=0) {ret <- FALSE}
-			else {ret <- TRUE}
-			}
-		}	
-	else { 	# other quadrants - lambda 2 must be negative, and lambda3 
-		# lambda 4 values need checking.
-		if (lambda2>=0) {return(FALSE)}
-		# Rectangular regions where RS is not defined 
-		if ((lambda3>0)&(lambda3<1)&(lambda4<0)) {return(FALSE)}
-		if ((lambda4>0)&(lambda4<1)&(lambda3<0)) {return(FALSE)}
-		# Different here because there are a 
-		# number of ways in which the parameters can fail.
-		# 
-		# Curved regions where RS is not defined
-		# change to shorter var names
-		lc <- lambda3
-		ld <- lambda4
-		if ((lambda3>-1)&(lambda3<0)&(lambda4>1)) {  # region 5 or not?
-			if ( ((1-lc)^(1-lc)*(ld-1)^(ld-1))/((ld-lc)^(ld-lc)) > -lc/ld )	
-				{return(FALSE)}
-			else 	{return(TRUE)}
-			}
-		# Second curved region 
-		if ((lambda4>-1)&(lambda4<0)&(lambda3>1)) {  # region 6 or not?
-			if ( ((1-ld)^(1-ld)*(lc-1)^(lc-1))/((lc-ld)^(lc-ld)) > -ld/lc )
-				{return(FALSE)}
-			else 	{return(TRUE)}
-			}
-		# There may be some limit results that mean these are not correct, but
-		# I'll check that later
-		if (lambda3 == 0) {
-			warning('lambda 3 = 0 - could be a problem')
-			return(FALSE)
-			}
-		if (lambda4 == 0) {
-			warning('lambda 4 = 0 - could be a problem')
-			return(FALSE)
-			}
-		# If we get here, then the parameters are OK.
-		ret <- TRUE
-		}
-	},
-	stop("Error when checking validity of parameters.\n Parameterisation must be either fmkl or rs")
+	rs=.qgl.rs(p,lambdas),
+	fm5 = .qgl.fm5(p, lambdas),
+	stop("Error: Parameterisation must be fmkl, fm5 or rs")
 	) # closes "switch"
-ret
+result
 }
 
 
-qgl.fmkl <- function(p,lambda1,lambda2,lambda3,lambda4)
+.qgl.fmkl <- function(p,lambdas)
 {
-# Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
-        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
-"\ndo not produce a proper distribution with the FMKL parameterisation - see \ndocumentation for gl.check.lambda"))
-	}
-# abandoned this for the simpler
+# No checking - use qgl if you want that
+lambda4 = lambdas[4]                        
+lambda3 = lambdas[3]
+lambda2 = lambdas[2]
+lambda1 = lambdas[1]
+# abandoned this for the simpler one below
 # outside.range <- !as.logical(((p<1)*(p>0))|(sapply(p, all.equal,1)=="TRUE")| (sapply(p, all.equal, 0)=="TRUE"))
 outside.range <- !as.logical((p<=1)*(p>=0))
 # u gets only the probabilities in [0,1]
@@ -114,81 +61,133 @@ result[!outside.range] <- quants
 result
 }
 
-qgl.rs <- function(p,lambda1,lambda2,lambda3,lambda4)
+.qgl.fm5 <- function(p,lambdas)
+{
+# No parameter value checking, use qgl!
+lambda5 = lambdas[5]
+lambda4 = lambdas[4]                        
+lambda3 = lambdas[3]
+lambda2 = lambdas[2]
+lambda1 = lambdas[1]
+# abandoned this for the simpler
+# outside.range <- !as.logical(((p<1)*(p>0))|(sapply(p, all.equal,1)=="TRUE")| (sapply(p, all.equal, 0)=="TRUE"))
+outside.range <- !as.logical((p<=1)*(p>=0))
+# u gets only the probabilities in [0,1]
+u <- p[!outside.range]
+# If OK, determine special cases
+if (lambda3 == 0) { 
+	if (lambda4 == 0) { # both log
+		quants <- lambda1 + ((1-lambda5)*log(u) - (1+lambda5)*log(1 - u))/lambda2
+		}
+	else	{ # l3 zero, l4 non-zero
+		quants <- lambda1 + 
+			((1-lambda5)*log(u) - (1+lambda5)*((1 - u)^lambda4 - 1)/lambda4)/lambda2
+		}
+	}
+else 	{ # lambda3 non-zero
+	if (lambda4 == 0) { # non-zero, l4 zero
+		quants <- lambda1 + 
+			((1-lambda5)*(u^lambda3 - 1)/lambda3 - (1+lambda5)*log(1 - u))/lambda2
+		}
+	else	{ # both non-zero - use usual formula
+		quants <- lambda1 + ((1-lambda5)* ( u ^ lambda3 - 1) / lambda3 
+			- (1+lambda5)*( (1-u)^lambda4 - 1) /lambda4 ) / lambda2
+		}
+	}
+# Now we have the quantiles for p values inside [0,1], put them in the right
+# place in the result vector
+result <- p*NaN
+result[!outside.range] <- quants
+# The remaining "quantiles" are NaN
+result
+}
+
+.qgl.rs <- function(p,lambdas)
 {
 u <- p
-# Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
-        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
-"\ndo not produce a proper distribution with the RS parameterisation - see \ndocumentation for gl.check.lambda"))
-	}
+# No parameter value checking - use qgl!
+lambda4 = lambdas[4]                        
+lambda3 = lambdas[3]
+lambda2 = lambdas[2]
+lambda1 = lambdas[1]
 # At present, I'm rejecting zero values for l3 and l4, though I think there 
 # are limit results, so one functional form.
 quants <- lambda1 + ( u ^ lambda3 - (1-u)^lambda4 ) / lambda2
 quants
 }
 
-qgl <- function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
+
+qdgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL)
 {
-u <- p
+# Don't allow characters in lambda5 - common error with parameterisation stuff
+if(is.character(lambda5)) {stop(paste("lambda5=",lambda5,"It should be a number between -1 and 1"))}
+lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
+# Check the values are OK
+if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
+        stop(paste("The parameter values", paste(lambdas,collapse=" "),"\ndo not produce a proper distribution for the",param,"parameterisation \n - see documentation for gl.check.lambda"))
+	}
 result <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
-	fmkl=qgl.fmkl(u,lambda1,lambda2,lambda3,lambda4),
+	fmkl=.qdgl.fmkl(p,lambdas),
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
 	RS=,
-	rs=qgl.rs(u,lambda1,lambda2,lambda3,lambda4),
-	stop("Error: Parameterisation must be either fmkl or rs")
-	) # closes "switch"
-result
-}
-
-qdgl <- function(p,lambda1,lambda2,lambda3,lambda4,param="fmkl")
-{
-u <- p
-result <- switch(param,  
-# Different tests apply for each parameterisation
-	freimer=,  # allows for alternate expressions
-	frm=,  # allows for alternate expressions
-	FMKL=,
-	fmkl=qdgl.fmkl(u,lambda1,lambda2,lambda3,lambda4),
-	ramberg=, # Ramberg & Schmeiser
-	ram=,
-	RS=,
-	rs=qdgl.rs(u,lambda1,lambda2,lambda3,lambda4),
-	stop("Error: Parameterisation must be either fmkl or rs")
+	rs=.qdgl.rs(p,lambdas),
+	fm5 = .qdgl.fm5(p, lambdas),
+	stop("Error: Parameterisation must be fmkl, fm5 or rs")
 	) # closes "switch"
 result
 }
 
 
-qdgl.rs <- function(p,lambda1=0,lambda2=1,lambda3,lambda4)
+.qdgl.rs <- function(p,lambdas)
 {
-u <- p
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="rs")) {
+if(!gl.check.lambda(lambdas,param="rs",vect=TRUE)) {
         stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
 "\ndo not produce a proper distribution with the",param,
 "parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
-dens <-  lambda2/(lambda3 * (u^(lambda3 -1)) + lambda4 * ((1 - u)^(lambda4 -1)))
+outside.range <- !as.logical((p<=1)*(p>=0))
+# u gets only the probabilities in [0,1]
+u <- p[!outside.range]	
+dens <-  lambdas[2]/(lambdas[3] * (p^(lambdas[3] -1)) + lambdas[4] * ((1 - p)^(lambdas[4] -1)))
 dens
 }
 
 
-qdgl.fmkl <- function(p,lambda1,lambda2,lambda3,lambda4)
+.qdgl.fmkl <- function(p,lambdas)
 {
-u <- p
 # Check the values are OK)
-if(!gl.check.lambda(lambda1,lambda2,lambda3,lambda4,param="fmkl")) {
-        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
+if(!gl.check.lambda(lambdas,param="fmkl",vect=TRUE)) {
+        stop(paste("The parameter values", paste(lambdas,collapse=" "),
 "\ndo not produce a proper distribution with the",param,
 "parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
+outside.range <- !as.logical((p<=1)*(p>=0))
+# u gets only the probabilities in [0,1]
+u <- p[!outside.range]
 # The density is given by 1/Q'(u)
-dens <- lambda2/(u^(lambda3 - 1) + (1 - u)^(lambda4 - 1))
+dens <- lambdas[2]/(p^(lambdas[3] - 1) + (1 - p)^(lambdas[4] - 1))
 dens
 }
+
+.qdgl.fm5 <- function(p,lambdas)
+{
+# Check the values are OK)
+if(!gl.check.lambda(lambdas,param="fm5",vect=TRUE)) {
+        stop(paste("The parameter values", paste(lambdas,collapse=" "),
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
+	}
+outside.range <- !as.logical((p<=1)*(p>=0))
+# u gets only the probabilities in [0,1]
+u <- p[!outside.range]
+# The density is given by 1/Q'(u)
+dens <- lambdas[2]/((1-lambdas[5])*(u^(lambdas[3] - 1)) + (1+lambdas[5])*((1 - u)^(lambdas[4] - 1)) )
+dens
+}
+

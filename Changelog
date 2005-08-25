@@ -1,3 +1,12 @@
+1.7
+Added support for the 5 parameter FMKL version (FM5 parameterisation)
+Changed syntax for starship.adaptivegrid
+Allowed parameters to be given as a vector, rather than with individual arguments
+Fixed bug which could have slowed F(x) calculation for pgl(...,param="fmkl") when lambda4=0, lambda3!=0
+
+1.6.1
+intermediate step in producing 1.7 with fm5 parameterisation
+
 1.6
 Documentation Example fixes
 

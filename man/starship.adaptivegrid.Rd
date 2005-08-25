@@ -12,15 +12,20 @@ parameters that transform the data closest to the uniform distribution.
 This function uses a grid-based search.
 }
 \usage{
-starship.adaptivegrid(data, lcvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2,
-0.4, 0.8, 1, 1.5), ldvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2, 0.4, 0.8, 
-1, 1.5),param="FMKL")
+starship.adaptivegrid(data, initgrid=list(
+lcvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2, 0.4, 0.8, 1, 1.5), 
+ldvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2, 0.4, 0.8, 1, 1.5),
+levect = c(-0.5,-0.25,0,0.25,0.5)),param="FMKL")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{Data to be fitted, as a vector}
-  \item{lcvect}{Vector of values to form \eqn{\lambda_3}{lambda 3} part of the grid} 
-  \item{ldvect}{Vector of values to form \eqn{\lambda_4}{lambda 4} part of the grid} 
+  \item{initgrid}{A list with elements, 
+  \code{lcvect}, a vector of values for \eqn{\lambda_3}{lambda 3},
+  \code{ldvect}, a vector of values for \eqn{\lambda_4}{lambda 4} and
+  \code{levect}, a vector of values for \eqn{\lambda_5}{lambda 5} 
+  (\code{levect} is only required if \code{param} is \code{fm5}).
+  }
   \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
@@ -72,9 +77,10 @@ Statistics \bold{41}, 353--374
 Owen, D. B. (1988), \emph{The starship}, Communications in Statistics - 
 Computation and Simulation \bold{17}, 315--323.
 
-\url{http://maths.newcastle.edu.au/~rking/gld/}
+\url{http://tolstoy.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king@newcastle.edu.au},
+\url{http://tolstoy.newcastle.edu.au/~rking/}
 
 Darren Wraith, \email{Darren.Wraith@studentmail.newcastle.edu.au}}
 \seealso{ 
@@ -83,6 +89,6 @@ Darren Wraith, \email{Darren.Wraith@studentmail.newcastle.edu.au}}
 }
 \examples{
 data <- rgl(100,0,1,.2,.2)
-starship.adaptivegrid(data,lcvect=(0:4)/10,ldvect=(0:4)/10)
+starship.adaptivegrid(data,list(lcvect=(0:4)/10,ldvect=(0:4)/10))
 }
 \keyword{distribution}

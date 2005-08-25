@@ -63,9 +63,10 @@ Statistics \bold{41}, 353--374
 Owen, D. B. (1988), \emph{The starship}, Communications in Statistics - 
 Computation and Simulation \bold{17}, 315--323.
 
-\url{http://maths.newcastle.edu.au/~rking/gld/}
+\url{http://tolstoy.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king@newcastle.edu.au},
+\url{http://tolstoy.newcastle.edu.au/~rking/}
 Darren Wraith, \email{Darren.Wraith@studentmail.newcastle.edu.au}}
 \seealso{ 
 \code{\link{starship}} 

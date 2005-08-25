@@ -3,27 +3,43 @@
 \title{Function to check the validity of parameters of the generalized lambda 
 distribution}
 \description{
-  Checks the validity of parameters of the generalized lambda.  In the case of 
-  the FMKL parameterisation, this is just a case of checking that 
-  \eqn{\lambda_2}{lambda 2} is positive.  The RS parameterisation is much more 
-  complex.
+  Checks the validity of parameters of the generalized lambda.  The tests 
+  are simple for the FMKL and FM5 parameterisations, and  much more 
+  complex for the RS parameterisation.
 }
 \usage{
-gl.check.lambda(lambda1, lambda2, lambda3, lambda4, param="fmkl")
+gl.check.lambda(lambdas, lambda2 = NULL, lambda3 = NULL, lambda4 =               NULL, param = "fmkl", lambda5 = NULL, vect = FALSE)
 }
 \arguments{
-  \item{lambda1}{\eqn{\lambda_1}{lambda 1} - location parameter
-% This note needed to be put inside an item, other R cmd check can't find
-% the documentation for the other arguments
-  \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters 
-	is different to that used by Freimer, Mudholkar, Kollia and Lin.}
+  \item{lambdas}{This can be either a single numeric value or a vector.  
+  
+  If it is a vector, it must be of length 4 for parameterisations 
+  \code{fmkl} or \code{rs} and of length 5 for parameterisation \code{fm5}.  
+  If it is a vector, it gives all the parameters of the generalised lambda 
+  distribution (see below for details) and the other \code{lambda} arguments
+  must be left as NULL. 
+        
+ If it is a a single value, it is \eqn{\lambda_1}{lambda 1}, the location 
+ parameter of the distribution and the other parameters are given by the
+ following arguments
+ 
+ \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters for
+ the \emph{fmkl} parameterisation is different to that used by Freimer, 
+ Mudholkar, Kollia and Lin.}
 	}
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter}
   \item{lambda3}{\eqn{\lambda_3}{lambda 3} - first shape parameter}
   \item{lambda4}{\eqn{\lambda_4}{lambda 4} - second shape parameter}
+  \item{lambda5}{\eqn{\lambda_5}{lambda 5} - a skewing parameter, in the
+    fm5 parameterisation}
   \item{param}{choose parameterisation:
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
-  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
+  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
+  \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
+  (paper to appear)}
+  \item{vect}{A logical, set this to TRUE if the parameters are given in the
+  vector form (it turns off checking of the format of \code{lambdas} and the 
+  other lambda arguments}
 }
 \details{
   See \code{\link{GeneralisedLambdaDistribution}} for details on the 
@@ -34,6 +50,12 @@ gl.check.lambda(lambda1, lambda2, lambda3, lambda4, param="fmkl")
   statistical distribution for any real values of \eqn{\lambda_1}{lambda 1},
   \eqn{\lambda_3}{lambda 3},\eqn{\lambda_4}{lambda 4} and any positive real 
   values of \eqn{\lambda_2}{lambda 2}.
+  
+  The FM5 parameterisation gives statistical distribution for any real 
+  values of \eqn{\lambda_1}{lambda 1}, \eqn{\lambda_3}{lambda 3}, 
+  \eqn{\lambda_4}{lambda 4}, any positive real values of 
+  \eqn{\lambda_2}{lambda 2} and values of \eqn{\lambda_5}{lambda 5} that 
+  satisfy \eqn{-1 \leq \lambda_5 \leq 1}{-1 <= lambda5 <= 1}.
 
   For the RS parameterisation, the combinations of parameters value that give 
   valid distributions are the following (the region numbers in the table 
@@ -92,9 +114,9 @@ Ramberg, J. S. & Schmeiser, B. W. (1974), \emph{An approximate method for
 generating asymmetric random variables}, Communications of the ACM \bold{17},
 78--82.
 
-\url{http://maths.newcastle.edu.au/~rking/gld/}
+\url{http://tolstoy.newcastle.edu.au/~rking/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://maths.newcastle.edu.au/~rking/}}
+\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{http://tolstoy.newcastle.edu.au/~rking/}}
 \note{The complex nature of the rules in this function for the RS
 parameterisation are the reason for the invention of the FMKL
 parameterisation and its status as the default parameterisation in the other
@@ -103,8 +125,9 @@ generalized lambda functions.}
 \seealso{The generalized lambda functions \code{\link{GeneralisedLambdaDistribution}}  }
 
 \examples{
-gl.check.lambda(0,1,.23,4.5) ## TRUE
-gl.check.lambda(0,-1,.23,4.5) ## FALSE 
-gl.check.lambda(0,1,0.5,-0.5,"rs") ## FALSE
+gl.check.lambda(c(0,1,.23,4.5),vect=TRUE) ## TRUE
+gl.check.lambda(c(0,-1,.23,4.5),vect=TRUE) ## FALSE 
+gl.check.lambda(c(0,1,0.5,-0.5),param="rs",vect=TRUE) ## FALSE
+gl.check.lambda(c(0,2,1,3.4,1.2),param="fm5",vect=TRUE) ## FALSE
 }
 \keyword{distribution}
