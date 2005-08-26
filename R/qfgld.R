@@ -147,9 +147,8 @@ result
 {
 # Check the values are OK)
 if(!gl.check.lambda(lambdas,param="rs",vect=TRUE)) {
-        stop(paste("The parameter values", lambda1, lambda2, lambda3, lambda4,
-"\ndo not produce a proper distribution with the",param,
-"parameterisation - see \ndocumentation for gl.check.lambda"))
+        stop(paste("The parameter values", paste(lambdas,collapse=" "),
+"\ndo not produce a proper distribution with the RS parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 outside.range <- !as.logical((p<=1)*(p>=0))
 # u gets only the probabilities in [0,1]
@@ -164,7 +163,7 @@ dens
 # Check the values are OK)
 if(!gl.check.lambda(lambdas,param="fmkl",vect=TRUE)) {
         stop(paste("The parameter values", paste(lambdas,collapse=" "),
-"\ndo not produce a proper distribution with the",param,
+"\ndo not produce a proper distribution with the FMKL",
 "parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 outside.range <- !as.logical((p<=1)*(p>=0))
@@ -180,7 +179,7 @@ dens
 # Check the values are OK)
 if(!gl.check.lambda(lambdas,param="fm5",vect=TRUE)) {
         stop(paste("The parameter values", paste(lambdas,collapse=" "),
-"\ndo not produce a proper distribution with the",param,
+"\ndo not produce a proper distribution with the FM5",
 "parameterisation - see \ndocumentation for gl.check.lambda"))
 	}
 outside.range <- !as.logical((p<=1)*(p>=0))

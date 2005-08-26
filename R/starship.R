@@ -27,13 +27,19 @@ list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin)
 }
 
 starship.adaptivegrid <- function(data,initgrid=list(
-lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5),
-levect=c(-0.5,-0.25,0,0.25,0.5)),param="FMKL") 
+  lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), 
+  ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5),
+  levect=c(-0.5,-0.25,0,0.25,0.5)),param="FMKL") 
 {
 data <- sort(data)
 quarts <- quantile(data)
 nombo <- length(data)
 minresponse <- 1000
+if (param=="RS"| param=="rs" | param=="ramberg" | param=="ram")
+	{
+	initgrid$lcvect <- initgrid$lcvect[initgrid$lcvect > 0]  
+	initgrid$ldvect <- initgrid$ldvect[initgrid$ldvect > 0]  
+	}
 if (param=="fm5"){
 	minlambda <- c(NA,NA,NA,NA,NA)
 	# There are other options than copying this code, but they seem to involve doing a param check inside all the for loops, and that seems terribly inefficient to me.  If it doesn't actuallly impact efficiency, let me know - RK

@@ -23,15 +23,32 @@ optim.control=NULL)
 defaults to Nelder-Mead}
   \item{initgrid}{Grid of values of \eqn{\lambda_3}{lambda 3} and
 \eqn{\lambda_4}{lambda 4}
-to try, in \code{\link{starship.adaptivegrid}}.  This should be a list, with
-elements \code{lcvect} (a vector of values of \eqn{\lambda_3}{lambda 3}) 
-and \code{ldvect} (a vector of values of \eqn{\lambda_4}{lambda 4}).  
-If it is left as NULL, these both default to
+to try, in \code{\link{starship.adaptivegrid}}.  This should be a list with
+elements, 
+  \code{lcvect}, a vector of values for \eqn{\lambda_3}{lambda 3},
+  \code{ldvect}, a vector of values for \eqn{\lambda_4}{lambda 4} and
+  \code{levect}, a vector of values for \eqn{\lambda_5}{lambda 5} 
+  (\code{levect} is only required if \code{param} is \code{fm5}).
+  
+If it is left as NULL, the default grid depends on the parameterisation.
+For \code{fmkl}, both lcvect and ldvect default to:
 \tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -.1\tab 0\tab .1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
+(\code{levect} is NULL).
+
+For \code{rs}, both lcvect and ldvect default to:
+\tabular{cccccc}{.1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
+(\code{levect} is NULL).
+
+For \code{fm5}, both lcvect and ldvect default to:
+\tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -.1\tab 0\tab .1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
+and \code{levect} defaults to:
+\tabular{ccccc}{-0.5\tab 0.25\tab 0\tab 0.25\tab 0.5}
 	}
 \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
-  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
+  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
+  \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
+  (paper to appear)}
 \item{optim.control}{List of options for the optimisation step.  See
 \code{\link{optim}} for details.  If left as NULL, the parscale 
 control is set to scale \eqn{\lambda_1}{lambda 1}

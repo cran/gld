@@ -25,10 +25,15 @@ levect = c(-0.5,-0.25,0,0.25,0.5)),param="FMKL")
   \code{ldvect}, a vector of values for \eqn{\lambda_4}{lambda 4} and
   \code{levect}, a vector of values for \eqn{\lambda_5}{lambda 5} 
   (\code{levect} is only required if \code{param} is \code{fm5}).
+
+\emph{Note:} if \code{param=rs}, the non-positive values are dropped from 
+\code{lcvect} and \code{ldvect}.
   }
   \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
-  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
+  \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
+  \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
+  (paper to appear)}
 }
 \details{
 The starship method is described in King \& MacGillivray, 1999 (see
