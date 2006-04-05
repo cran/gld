@@ -1,3 +1,9 @@
+1.8
+plotgl warns about pathological densities and plots slightly differently 
+where the theoretical (finite) minimum is actually a long way 
+from Q(.Machine$double.eps) or similar with the maximum
+Bugfix: DOS CR characters in R file causing problem on alpha
+
 1.7.2
 Bugfix: no visible binding for param in .qdgl.fmkl and friends
 
