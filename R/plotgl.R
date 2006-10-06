@@ -23,7 +23,7 @@ dots.required <- FALSE
 nearzero <- .Machine$double.eps*c(0,1,3)
 check.for.jump <- qgl(nearzero,lambda1=lambdas,param=param)
 check.for.jump2 <- qgl(1-nearzero,lambda1=lambdas,param=param)
-if (is.finite(check.for.jump[1]))
+if (is.finite(check.for.jump[1])) # warning and different plot
 	{
 	first.space <- check.for.jump[2] - check.for.jump[1]
 	from1to3 <- check.for.jump[3] - check.for.jump[2]
@@ -32,22 +32,21 @@ if (is.finite(check.for.jump[1]))
 		"The theoretical minimum: F^{-1}(0)=",signif(check.for.jump[1],4),"\n is much less than F^{-1}("
 		,signif(nearzero[2],4),")=",signif(check.for.jump[2],4),"The density is undefined between these points"))
 		dots.required <- TRUE
+		dots.start <- TRUE
 		}
 	}
-if (is.finite(check.for.jump2[1]))
+if (is.finite(check.for.jump2[1])) # warning and different plot
 	{
 	last.space <- check.for.jump2[1] - check.for.jump2[2]
 	from1to3 <- check.for.jump2[2] - check.for.jump2[3]
-	print(c(first.space,from1to3))
-	if (first.space > (from1to3 * 1e10)) {
+	if (last.space > (from1to3 * 1e10)) {
 		warning(paste("These parameter values give a pathological density.  \n",
 		"The theoretical maximum: F^{-1}(1)=",signif(check.for.jump2[1],4),
 		"\n is much more than F^{-1}(1-",signif(nearzero[2],4),")=",signif(check.for.jump2[2],4),".\n","The density is undefined between these points"))
 		dots.required <- TRUE
+		dots.end
 		}
 	}
-# warning - or different plot
-# Fix this for infinity 
 if(truncate > 0) { 
 	# If truncated, not RS pathological problem, because density at the endpoint is zero
 	if(new.plot) {
@@ -78,31 +77,34 @@ if(truncate > 0) {
 	}
 else {
 	if(new.plot) {
-		if (is.null(ylab)){
-			ylab <- "probability density"
-			}
-		if(bnw) {
-			if (dots.required) {
-				plot(quantiles, density, type = "n", xlab = xlab,ylab = ylab, lty=col.or.type, ...)
-				points(quantiles[1],density[1])
-				points(quantiles[granularity+1],density[granularity+1])
-				lines(quantiles[-c(1,granularity+1)], density[-c(1,granularity+1)],  lty=col.or.type, ...)
+		if (is.null(ylab)){ ylab <- "probability density" }
+		# Set up graphics system for plot with dots
+		if (dots.required) {
+			plot(quantiles, density, type = "n", xlab = xlab,ylab = ylab, lty=col.or.type, ...)
+			if (dots.start) {
+				if(bnw) {points(quantiles[1],density[1]) }
+				else {points(quantiles[1],density[1],col=col.or.type) } 
+				start.line <- 2
 				}
-			else {
-				plot(quantiles, density, type = "l", xlab = xlab,ylab = ylab, lty=col.or.type, ...) 
+			else {start.line <- 1}
+			if (dots.end) {
+				if (bnw) {points(quantiles[granularity+1],density[granularity+1]) }
+				else {points(quantiles[granularity+1],density[granularity+1],col=col.or.type) }
+				end.line <- granularity
 				}
+			else {end.line <- granularity+1}
 			}
 		else {
-			if (dots.required) {
-				plot(quantiles, density, type = "n", xlab = xlab,ylab = ylab, lty=col.or.type, ...)
-				points(quantiles[1],density[1],...)
-				points(quantiles[granularity+1],density[granularity+1],...)
-				lines(quantiles[-c(1,granularity+1)], density[-c(1,granularity+1)], col=col.or.type, ...)
-				print("hello")
-				}
-			else {
-				plot(quantiles, density, type = "l", xlab = xlab, ylab = ylab, col=col.or.type, ...)
-				}
+			start.line <- 1
+			end.line <- granularity+1
+			}
+		if(bnw) {
+			if (dots.required) { lines(quantiles[start.line:end.line], density[start.line:end.line], lty=col.or.type, ...) }
+			else { plot(quantiles[start.line:end.line], density[start.line:end.line], type = "l", xlab = xlab,ylab = ylab, lty=col.or.type, ...) }
+			}
+		else {	
+			if (dots.required) { lines(quantiles[start.line:end.line], density[start.line:end.line], col=col.or.type, ...) }
+			else { plot(quantiles[start.line:end.line], density[start.line:end.line], type = "l", xlab = xlab,ylab = ylab, col=col.or.type, ...) }
 			}
 		}
 	else {

@@ -1,4 +1,4 @@
-.gl.parameter.tidy <- function(lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,  param="fmkl",lambda5=NULL) 
+.gl.parameter.tidy <- function(lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL) 
 {
 # Don't allow characters in lambda5 - common error with parameterisation stuff
 if(is.character(lambda5)) {stop(paste("lambda5=",lambda5,"It should be a number between -1 and 1"))}
@@ -29,8 +29,8 @@ else { # single parameter arguments - check they are there, then collect them to
 	if (is.null(lambda4)) { stop("No value for lambda4") }
 	if ((is.null(lambda5)) & param=="fm5" ) { stop("No value for lambda5") }
 	if (!(is.null(lambda5)) & param!="fm5") { stop(paste("lambda5=",lambda5," but there is no lambda 5 for the\n",param,"parameterisation")) }
-	 if (param != "fm5") { # A 4 parameter version
-		lambda1 <- c(lambda1,lambda2,lambda3,lambda4)   # seems to not work according to debug()
+	if (param != "fm5") { # A 4 parameter version
+		lambda1 <- c(lambda1,lambda2,lambda3,lambda4)
 		}
 	else { # fm5
 		lambda1 <- c(lambda1,lambda2,lambda3,lambda4,lambda5)
@@ -45,7 +45,6 @@ gl.check.lambda <-  function(lambdas,lambda2=NULL,lambda3=NULL,lambda4=NULL,
 param="fmkl",lambda5=NULL,vect=FALSE)
 {
 # Checks to see that the lambda values given are allowed.
-# Demands the vector version of the parameters.
 # There is a function called .gl.parameter.tidy that does the tidying 
 # around of parameters.  It return a single vector, which contains the
 # parameters.
@@ -65,18 +64,18 @@ lambda4 = lambdas[4]
 lambda3 = lambdas[3]
 lambda2 = lambdas[2]
 lambda1 = lambdas[1]
-# Check all the parameters are finite
-if ( sum( is.finite(lambdas))  <4) { return(FALSE) }
-# This is not strictly true - there a limit results for infinite values of the shape parameters 
-# I'm keeping this in until I include the limit results.
+# I did have a check for finite lambdas, but that caused a problem with data frames, 
+# so I removed it - still need to include the limit results
 param <- switch(param,  
 # Different tests apply for each parameterisation
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
 	fmkl={
-	if (lambda2<=0) {ret <- FALSE}
-	else {ret <- TRUE}
+	if ( !is.finite(lambda4) ) {warning("lambda 4 is infinite, and the code doesn't deal with this case yet")}
+	if ( !is.finite(lambda3) ) {warning("lambda 3 is infinite, and the code doesn't deal with this case yet")}
+	if (lambda2<=0) {return(FALSE)}
+	else {return(TRUE)}
 	},
 	ramberg=, # Ramberg & Schmeiser
 	ram=,

@@ -1,9 +1,9 @@
 /* gld.fm5.fx.c - Part of Robert King's gld package for the R statistical
  * language.
  *
- * Copyright (C) Robert King 1993,2000,2001,2005
+ * Copyright (C) Robert King 1993,2000,2001,2005,2006
  * robert.king@newcastle.edu.au
- * http://maths.newcastle.edu.au/~rking/publ/software.html
+ * http://tolstoy.newcastle.edu.au/~rking/publ/software.html
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 

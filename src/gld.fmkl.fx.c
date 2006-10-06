@@ -1,9 +1,9 @@
 /* gld.fmkl.fx.c - Part of Robert King's gld package for the R statistical
  * language.
  *
- * Copyright (C) Robert King 1993,2000,2001
+ * Copyright (C) Robert King 1993,2000,2001,2006
  * robert.king@newcastle.edu.au
- * http://maths.newcastle.edu.au/~rking/publ/software.html
+ * http://tolstoy.newcastle.edu.au/~rking/publ/software.html
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -95,6 +95,8 @@ for (i=0;i<*lengthofdata;i++)
 	fmkl_funcd(u2,x,&fh,&df,pa,pb,pc,pd);
 	if (fl*fh >= 0.0) 
 	{
+		/* This is suggested in writing R extensions, but still gives the warning */
+		/* error("Program aborted at parameter values %f, %f, %f, %f\n The data value being investigated was index %d, value: %f\n", *pa, *pb, *pc, *pd, i, x); */
 		fprintf(stderr,"Program aborted at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
 		fprintf(stderr,"The data value being investigated was index %d",i);
 		fprintf(stderr," value: %f\n",x);

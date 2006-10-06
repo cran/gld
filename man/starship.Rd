@@ -113,7 +113,7 @@ Computation and Simulation \bold{17}, 315--323.
 \author{Robert King, \email{robert.king@newcastle.edu.au},
 \url{http://tolstoy.newcastle.edu.au/~rking/}
 
-Darren Wraith, \email{Darren.Wraith@studentmail.newcastle.edu.au}}
+Darren Wraith}
 \seealso{ 
 \code{\link{starship.adaptivegrid}}, 
 \code{\link{starship.obj}} 
