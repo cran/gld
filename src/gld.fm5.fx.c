@@ -39,6 +39,7 @@
  
 #include <stdio.h>
 #include <math.h> 
+#include <R.h> 
 
 /* proto */
 
@@ -106,7 +107,7 @@ for (i=0;i<*lengthofdata;i++)
 		fprintf(stderr,"Program aborted at parameter values %f, %f, %f, %f %f\n", *pa, *pb, *pc, *pd, *pe);
 		fprintf(stderr,"The data value being investigated was index %d",i);
 		fprintf(stderr," value: %f\n",x);
-		exit(1);
+		error("C code failure - see error message printed above");
 	}
 	if (fl < 0.0) {
 		xl = u1;

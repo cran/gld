@@ -1,3 +1,7 @@
+1.8.2
+Fixed dots.end bug in plotgld
+Changed exit() to error() in C code
+
 1.8.1
 plotgl warning (1.8 change) bugfix
 Removed the infinite parameter values check

@@ -44,7 +44,7 @@ if (is.finite(check.for.jump2[1])) # warning and different plot
 		"The theoretical maximum: F^{-1}(1)=",signif(check.for.jump2[1],4),
 		"\n is much more than F^{-1}(1-",signif(nearzero[2],4),")=",signif(check.for.jump2[2],4),".\n","The density is undefined between these points"))
 		dots.required <- TRUE
-		dots.end
+		dots.end <- TRUE
 		}
 	}
 if(truncate > 0) { 

@@ -31,6 +31,7 @@
 
 #include <stdio.h> 
 #include <math.h> 
+#include <R.h> 
 
 static double la, lb, lc, ld, x;
 
@@ -81,7 +82,7 @@ for (i=0;i<l;i++)
 		fprintf(stderr,"at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
 		fprintf(stderr,"The x value being investigated was index: %d",i);
 		fprintf(stderr," value: %f\n",x);
-		exit(1);
+		error("C code numerical failure");
 
 		}
 	if (fl < 0.0) {

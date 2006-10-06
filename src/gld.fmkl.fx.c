@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <R.h> 
 
 /* proto */
 
@@ -97,10 +98,10 @@ for (i=0;i<*lengthofdata;i++)
 	{
 		/* This is suggested in writing R extensions, but still gives the warning */
 		/* error("Program aborted at parameter values %f, %f, %f, %f\n The data value being investigated was index %d, value: %f\n", *pa, *pb, *pc, *pd, i, x); */
-		fprintf(stderr,"Program aborted at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
+		fprintf(stderr,"C code aborted at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
 		fprintf(stderr,"The data value being investigated was index %d",i);
 		fprintf(stderr," value: %f\n",x);
-		exit(1);
+		error("C code numerical failure");
 	}
 	if (fl < 0.0) {
 		xl = u1;
