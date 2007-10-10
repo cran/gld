@@ -38,7 +38,9 @@ else { # single parameter arguments - check they are there, then collect them to
 	}
 # There is now an error if there is the wrong number of parameters, and 
 # lambda1 returned as a vector with 4 or 5 elements
-lambda1
+# as.double is needed to remove data.frame attributes if lambda1 was
+# extracted from a data.frame
+as.double(lambda1)
 }
 
 gl.check.lambda <-  function(lambdas,lambda2=NULL,lambda3=NULL,lambda4=NULL,
@@ -72,8 +74,6 @@ param <- switch(param,
 	frm=,  # allows for alternate expressions
 	FMKL=,
 	fmkl={
-	if ( !is.finite(lambda4) ) {warning("lambda 4 is infinite, and the code doesn't deal with this case yet")}
-	if ( !is.finite(lambda3) ) {warning("lambda 3 is infinite, and the code doesn't deal with this case yet")}
 	if (lambda2<=0) {return(FALSE)}
 	else {return(TRUE)}
 	},

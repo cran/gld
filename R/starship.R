@@ -1,11 +1,11 @@
 # $Id: starship.R,v 1.3 2003-05-13 16:28:27+10 king Exp $
 starship <- function(data,optim.method="Nelder-Mead",initgrid=NULL,
-	param="FMKL",optim.control=NULL) 
+	inverse.eps=1e-8,param="FMKL",optim.control=NULL) 
 {
 # call adaptive grid first to find a first minimum
-if (is.null(initgrid) ) {gridmin <- starship.adaptivegrid(data,param=param) }
+if (is.null(initgrid) ) {gridmin <- starship.adaptivegrid(data,inverse.eps=inverse.eps,param=param) }
 else 	{
-	gridmin <- starship.adaptivegrid(data,initgrid,param=param)
+	gridmin <- starship.adaptivegrid(data,initgrid,inverse.eps=inverse.eps,param=param)
 	}
 # If they haven't sent any control parameters, scale by max(lambda1,1),
 # lambda2 (can't be <= 0), don't scale for lambda3, lambda4 or lambda5
@@ -22,14 +22,14 @@ if (is.null(optim.control) ) {
 # change it also
 # call optimiser
 optimmin <- optim(par=gridmin$lambda,fn=starship.obj,method=optim.method,
-	control=optim.control,data=data,param=param)
+	control=optim.control,data=data,param=param,inverse.eps=inverse.eps)
 list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin)
 }
 
 starship.adaptivegrid <- function(data,initgrid=list(
   lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), 
   ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5),
-  levect=c(-0.5,-0.25,0,0.25,0.5)),param="FMKL") 
+  levect=c(-0.5,-0.25,0,0.25,0.5)),inverse.eps=1e-8,param="FMKL") 
 {
 data <- sort(data)
 quarts <- quantile(data)
@@ -62,7 +62,7 @@ qgl(.25,c(0,1,lc,ld,le),param=param)
   qgl(0.45,c(0,lb,lc,ld,le),param=param),qgl(0.35,c(0,lb,lc,ld,le),param=param) )
 				for (la in lavect) {
 					# calculate uniform g-o-f
-					response <- starship.obj(c(la,lb,lc,ld,le),data,param)
+					response <- starship.obj(c(la,lb,lc,ld,le),data,inverse.eps,param)
 					if (response < minresponse) {
 						minresponse <- response
 						minlambda <- c(la,lb,lc,ld,le)
@@ -94,7 +94,7 @@ qgl(.25,0,1,lc,ld,param=param)
 	qgl(0.45,0,lb,lc,ld,param=param),qgl(0.35,0,lb,lc,ld,param=param) )
 				for (la in lavect) {
 					# calculate uniform g-o-f
-					response <- starship.obj(c(la,lb,lc,ld),data,param)
+					response <- starship.obj(c(la,lb,lc,ld),data,inverse.eps,param)
 					if (response < minresponse) {
 						minresponse <- response
 						minlambda <- c(la,lb,lc,ld)
@@ -108,7 +108,7 @@ qgl(.25,0,1,lc,ld,param=param)
 list(response=minresponse,lambda=minlambda)
 }
 
-starship.obj <- function(par,data,param="fmkl") 
+starship.obj <- function(par,data,inverse.eps,param="fmkl") 
 {
 l1 <- par[1]; l2 <- par[2];
 l3 <- par[3]; l4 <- par[4];
@@ -123,13 +123,13 @@ x <- sort(data)
 # defining other variables
 nombo <- length(x)
 
-xacc <- 1e-8
+xacc <- inverse.eps
 # values sent to pgl
 # lower & upper limit on u
 x1 <- xacc 
 x2 <- 1.0 - xacc
 
-u <- pgl(x,par,param=param);
+u <- pgl(x,par,inverse.eps=inverse.eps,param=param);
 # write.table(matrix(c(u),nrow=1),"interim-output/u1.txt",append=T,sep=",",quote=F,col.names=F)
 response <- .anddarl(u,nombo);
 # write.table(matrix(c(response),nrow=1),"interim-output/response.txt",append=T,sep=",",quote=F,col.names=F)
@@ -139,6 +139,7 @@ return(response)
 # ANDERSON-DARLING TEST
 .anddarl <- function(u,nombo)
 {
+# Anderson-Darling g-o-f assessment for uniform
 ad <- c(dim(nombo),dim(1));
 for(j in 1:nombo) {ad[j] <- ((2*j-1)/nombo)*(log(u[j])+log(1-u[nombo+1-j]))}
 # This is useful in opt to illustrate what its doing

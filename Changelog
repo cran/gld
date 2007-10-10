@@ -1,3 +1,8 @@
+1.8.3
+Fixed bug stopping functions working if the parameter values are extracted from a dataframe
+Added ability to set inverse.eps in starship() - default is still 1e-08
+really fixed dots.end bug in plotgld
+
 1.8.2
 Fixed dots.end bug in plotgld
 Changed exit() to error() in C code

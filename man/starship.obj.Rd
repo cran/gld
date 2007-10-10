@@ -9,7 +9,7 @@ This function is the objective funciton minimised in the methods.  It is a
 goodness of fit measure carried out on the depths of the data.
 }
 \usage{
-starship.obj(par, data, param = "fmkl")
+starship.obj(par, data, inverse.eps, param = "fmkl")
 }
 \arguments{
   \item{par}{parameters of the generalised lambda distribution, a vector of
@@ -17,7 +17,9 @@ length 4, giving \eqn{\lambda_1}{lambda 1} to \eqn{\lambda_4}{lambda 4}.
 See \code{\link{GeneralisedLambdaDistribution}} for details on the
 definitions of these parameters}
   \item{data}{Data --- a vector}
-  \item{param}{choose parameterisation: 
+\item{inverse.eps}{Accuracy of calculation for the numerical determination of 
+	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
+\item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}}
 }
@@ -74,6 +76,6 @@ Darren Wraith}
 }
 \examples{
 data <- rgl(100,0,1,.2,.2)
-starship.obj(c(0,1,.2,.2),data,"fmkl")
+starship.obj(c(0,1,.2,.2),data,inverse.eps=1e-10,"fmkl")
 }
 \keyword{distribution}

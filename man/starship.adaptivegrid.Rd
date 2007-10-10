@@ -15,7 +15,7 @@ This function uses a grid-based search.
 starship.adaptivegrid(data, initgrid=list(
 lcvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2, 0.4, 0.8, 1, 1.5), 
 ldvect = c(-1.5, -1, -0.5, -0.1, 0, 0.1, 0.2, 0.4, 0.8, 1, 1.5),
-levect = c(-0.5,-0.25,0,0.25,0.5)),param="FMKL")
+levect = c(-0.5,-0.25,0,0.25,0.5)),inverse.eps = 1e-08, param="FMKL")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,6 +29,8 @@ levect = c(-0.5,-0.25,0,0.25,0.5)),param="FMKL")
 \emph{Note:} if \code{param=rs}, the non-positive values are dropped from 
 \code{lcvect} and \code{ldvect}.
   }
+  \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
+	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
   \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}

@@ -24,10 +24,11 @@ result
 .qgl.fmkl <- function(p,lambdas)
 {
 # No checking - use qgl if you want that
-lambda4 = lambdas[4]                        
+lambda4 = lambdas[4]
 lambda3 = lambdas[3]
 lambda2 = lambdas[2]
 lambda1 = lambdas[1]
+p <- as.double(p)
 # abandoned this for the simpler one below
 # outside.range <- !as.logical(((p<1)*(p>0))|(sapply(p, all.equal,1)=="TRUE")| (sapply(p, all.equal, 0)=="TRUE"))
 outside.range <- !as.logical((p<=1)*(p>=0))
@@ -63,12 +64,13 @@ result
 
 .qgl.fm5 <- function(p,lambdas)
 {
-# No parameter value checking, use qgl!
-lambda5 = lambdas[5]
-lambda4 = lambdas[4]                        
-lambda3 = lambdas[3]
-lambda2 = lambdas[2]
-lambda1 = lambdas[1]
+# No parameter value checking. If you want that, use qgl!
+lambda5 = as.double(lambdas[5])
+lambda4 = as.double(lambdas[4])             
+lambda3 = as.double(lambdas[3])
+lambda2 = as.double(lambdas[2])
+lambda1 = as.double(lambdas[1])
+p <- as.double(p)
 # abandoned this for the simpler
 # outside.range <- !as.logical(((p<1)*(p>0))|(sapply(p, all.equal,1)=="TRUE")| (sapply(p, all.equal, 0)=="TRUE"))
 outside.range <- !as.logical((p<=1)*(p>=0))
@@ -106,7 +108,7 @@ result
 {
 u <- p
 # No parameter value checking - use qgl!
-lambda4 = lambdas[4]                        
+lambda4 = lambdas[4]
 lambda3 = lambdas[3]
 lambda2 = lambdas[2]
 lambda1 = lambdas[1]
