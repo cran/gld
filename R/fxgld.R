@@ -59,7 +59,7 @@ result <- switch(param,
 	fmkl=.C("gl_fmkl_distfunc",lambdas[1],lambdas[2],lambdas[3],lambdas[4], 
 		as.double(0),as.double(1),inverse.eps,
 		as.integer(max.iterations),as.double(q),as.double(u),
-		as.integer(length.of.vector),PACKAGE="gld"), 
+		as.integer(length.of.vector),PACKAGE="gld"),
     	ramberg=, # Ramberg & Schmeiser 
     	ram=, 
     	RS=, 

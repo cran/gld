@@ -1,3 +1,7 @@
+1.8.4
+Added "starship" class, with methods for print() and summary()
+Documentation fixes
+
 1.8.3
 Fixed bug stopping functions working if the parameter values are extracted from a dataframe
 Added ability to set inverse.eps in starship() - default is still 1e-08

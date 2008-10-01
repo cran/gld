@@ -58,10 +58,10 @@ with different
 densities identified using line colour (\code{col})}
   \item{col.or.type}{Colour or type of line to use}
   \item{granularity}{Number of points to calculate quantiles and density at
---- see \em{details}}
+--- see \emph{details}}
   \item{xlab}{X axis label}
   \item{ylab}{Y axis label}
-  \item{quant.probs}{Quantiles of distribution to return (see \em{value}
+  \item{quant.probs}{Quantiles of distribution to return (see \emph{value}
 below).  Set to NULL to suppress this return entirely.}
   \item{...}{arguments that get passed to \code{plot} if this is a new plot}
 }

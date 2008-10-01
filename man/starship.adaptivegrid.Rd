@@ -44,7 +44,7 @@ generalised lambda distribution (\code{\link{gld}})
 is a transformation of the uniform distribution.  Thus the inverse of this
 transformation is the distribution function for the gld.  The starship method
 applies different values of the parameters of the distribution to the
-distribution function, calculates the depths {\em q} corresponding to the data
+distribution function, calculates the depths \emph{q} corresponding to the data
 and chooses the parameters that make the depths closest to a uniform
 distribution.
 
@@ -89,7 +89,7 @@ Computation and Simulation \bold{17}, 315--323.
 \author{Robert King, \email{robert.king@newcastle.edu.au},
 \url{http://tolstoy.newcastle.edu.au/~rking/}
 
-Darren Wraith, \email{Darren.Wraith@studentmail.newcastle.edu.au}}
+Darren Wraith}
 \seealso{ 
 \code{\link{starship}}, 
 \code{\link{starship.obj}} 

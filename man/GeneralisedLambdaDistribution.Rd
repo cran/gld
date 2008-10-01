@@ -10,8 +10,9 @@
 \title{The Generalised Lambda Distribution}
 \description{Density, quantile density, distribution function, quantile 
 function and random generation for the generalised lambda distribution 
-(also known as the asymmetric lambda, or Tukey lambda).  Works for 
-both the \code{fmkl} (recommended) and \code{rs} parameterisations.
+(also known as the asymmetric lambda, or Tukey lambda).  Provides for three
+different parameterisations, the \code{fmkl} (recommended), the \code{rs} and 
+a five parameter version of the FMKL, the \code{fm5}.
 }
 \usage{
 dgl(x, lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
@@ -89,7 +90,7 @@ of the parameters produce valid statistical distributions.  See
 A third parameterisation, the FM5, chosen by setting \code{param="fm5"} 
 adds an additional skewing parameter to the FMKL parameterisation.  
 This uses the same approach as that used by 
-Karian \& Dudwicz (2000) OR IS IT GILCHRIST?? 
+Gilchrist (2000)
 for the RS parameterisation.  The quantile function is
 \deqn{F^{-1}(u)= \lambda_1 + { { \frac{(1-\lambda_5)(u^{\lambda_3}-1)}%
 {\lambda_3} - \frac{(1+\lambda_5)((1-u)^{\lambda_4}-1)}{\lambda_4} }  %
@@ -100,8 +101,8 @@ and \eqn{-1 \leq \lambda_5 \leq 1}{-1 <= lambda5 <= 1}.
 
 The distribution is defined by its quantile function and its distribution and
 density functions do not exist in closed form.  Accordingly, the results 
-from \code{pgl} and \code{dgl} are the result of a numerical solutions to
-equations, using the Newton-Raphson method.  Since the quantile density
+from \code{pgl} and \code{dgl} are the result of numerical solutions to the
+quantile function, using the Newton-Raphson method.  Since the quantile density
 function, \eqn{f(F^{-1}(u))}, does exist, an additional function, \code{qdgl},
 computes this.
 
@@ -135,7 +136,8 @@ Gilchrist, Warren G. (2000), \emph{Statistical Modelling with Quantile Functions
 Karian, Z.A., Dudewicz, E.J., and McDonald, P. (1996), \emph{The extended 
     generalized lambda distribution system for fitting distributions to data: 
     history, completion of theory, tables, applications, the ``Final Word'' 
-    on Moment fits}, Communications in Statistics - Simulation and Computation 
+    on Moment fi
+ts}, Communications in Statistics - Simulation and Computation 
     \bold{25}, 611--642.
     
 Karian,  Zaven A. and Dudewicz, Edward J. (2000), \emph{Fitting statistical distributions: the Generalized Lambda Distribution and Generalized Bootstrap methods}, Chapman & Hall

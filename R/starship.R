@@ -23,7 +23,12 @@ if (is.null(optim.control) ) {
 # call optimiser
 optimmin <- optim(par=gridmin$lambda,fn=starship.obj,method=optim.method,
 	control=optim.control,data=data,param=param,inverse.eps=inverse.eps)
-list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin)
+result <- list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin,param=param)
+# Apply starship class to result
+class(result) <- "starship"
+# Add names to the lambda element - what names to use will depend on the parameterisation
+names(result$lambda) <- paste("lambda",1:length(result$lambda),sep="")
+result
 }
 
 starship.adaptivegrid <- function(data,initgrid=list(

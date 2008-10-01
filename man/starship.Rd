@@ -14,7 +14,8 @@ This function uses a grid-based search to find a suitable starting point (using
 the parameters that do this.
 }
 \usage{
-starship(data, optim.method = "Nelder-Mead", initgrid = NULL, inverse.eps = 1e-08, param="FMKL", optim.control=NULL)
+starship(data, optim.method = "Nelder-Mead", initgrid = NULL, 
+inverse.eps = 1e-08, param="FMKL", optim.control=NULL)
 }
 \arguments{
   \item{data}{Data to be fitted, as a vector}
@@ -31,15 +32,16 @@ elements,
   
 If it is left as NULL, the default grid depends on the parameterisation.
 For \code{fmkl}, both lcvect and ldvect default to:
-\tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -.1\tab 0\tab .1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
+\tabular{ccccccccccc}{-1.5\tab -1\tab -0.5\tab -0.1\tab 0\tab 0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
 (\code{levect} is NULL).
 
 For \code{rs}, both lcvect and ldvect default to:
-\tabular{cccccc}{.1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
-(\code{levect} is NULL).
+\tabular{cccccc}{0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
+(\code{levect} is NULL).  Note that this restricts the estimates to only part of the region
+of the  \eqn{\lambda_3}{lambda 3}, \eqn{\lambda_4}{lambda 4} plane.
 
 For \code{fm5}, both lcvect and ldvect default to:
-\tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -.1\tab 0\tab .1\tab .2\tab .4\tab .8\tab 1\tab 1.5}
+\tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -0.1\tab 0\tab 0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
 and \code{levect} defaults to:
 \tabular{ccccc}{-0.5\tab 0.25\tab 0\tab 0.25\tab 0.5}
 	}
@@ -63,7 +65,7 @@ generalised lambda distribution (\code{\link{gld}})
 is a transformation of the uniform distribution.  Thus the inverse of this
 transformation is the distribution function for the gld.  The starship method
 applies different values of the parameters of the distribution to the
-distribution function, calculates the depths {\em q} corresponding to the data
+distribution function, calculates the depths \emph{q} corresponding to the data
 and chooses the parameters that make the depths closest to a uniform
 distribution.
 
@@ -81,13 +83,23 @@ See \code{\link{GeneralisedLambdaDistribution}} for details on
 parameterisations.
 }
 \value{
-Returns a list, with 
-  \item{lambda}{A vector of length 4, giving 
+\code{starship} returns an object of \code{\link[base]{class}} \code{"starship"}.
+
+\code{print} prints the estimated values of the parameters, while
+\code{\link[gld]{summary.starship}} prints these by default, but can also provide
+details of the estimation process (from the components \code{grid.results} and 
+\code{optim} detailed below).
+
+An object of class \code{"starship"} is a list containing at least the
+following components:
+
+  \item{lambda}{A vector of length 4 (or 5, for the \emph{fm5} parameterisation), giving 
 the estimated parameters, in order,
   \eqn{\lambda_1}{lambda 1} - location parameter
   \eqn{\lambda_2}{lambda 2} - scale parameter
   \eqn{\lambda_3}{lambda 3} - first shape parameter
-  \eqn{\lambda_4}{lambda 4} - second shape parameter }
+  \eqn{\lambda_4}{lambda 4} - second shape parameter
+(See \code{\link[gld]{gld}} for details of the parameters in the \emph{fm5} parameterisation)}
   \item{grid.results}{output from the grid search - see
 \code{\link{starship.adaptivegrid}} for details}
   \item{optim}{output from the optim search -
