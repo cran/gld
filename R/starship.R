@@ -1,6 +1,5 @@
-# $Id: starship.R,v 1.3 2003-05-13 16:28:27+10 king Exp $
 starship <- function(data,optim.method="Nelder-Mead",initgrid=NULL,
-	inverse.eps=1e-8,param="FMKL",optim.control=NULL) 
+	inverse.eps=.Machine$double.eps,param="FMKL",optim.control=NULL,return.data=FALSE) 
 {
 # call adaptive grid first to find a first minimum
 if (is.null(initgrid) ) {gridmin <- starship.adaptivegrid(data,inverse.eps=inverse.eps,param=param) }
@@ -24,6 +23,7 @@ if (is.null(optim.control) ) {
 optimmin <- optim(par=gridmin$lambda,fn=starship.obj,method=optim.method,
 	control=optim.control,data=data,param=param,inverse.eps=inverse.eps)
 result <- list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin,param=param)
+if (return.data) {result$data = data}
 # Apply starship class to result
 class(result) <- "starship"
 # Add names to the lambda element - what names to use will depend on the parameterisation

@@ -1,3 +1,12 @@
+1.9
+Provided qdgl() as a duplicate of dqgl() because these are actually the quantile density functions, not the density quantile functions
+Allowed for the FKML parameterisation to be referred to as either FKML or FMKL to allow for the different uses in the literature.
+Added a plot method for the starship class.  This compares the fitted gld to the data.
+Added add argument to plotgld() and plotglc()
+
+1.8.5
+Added QQ plot to compare two sets of parameter values
+
 1.8.4
 Added "starship" class, with methods for print() and summary()
 Documentation fixes

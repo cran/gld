@@ -1,4 +1,4 @@
-qgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL)
+qgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",lambda5=NULL)
 {
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
 # Check the values are OK
@@ -9,13 +9,15 @@ result <- switch(param,
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
+	FKML=,
+	fkml=,
 	fmkl=.qgl.fmkl(p,lambdas),
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
 	RS=,
 	rs=.qgl.rs(p,lambdas),
 	fm5 = .qgl.fm5(p, lambdas),
-	stop("Error: Parameterisation must be fmkl, fm5 or rs")
+	stop("Error: Parameterisation must be fkml, fm5 or rs")
 	) # closes "switch"
 result
 }
@@ -119,7 +121,10 @@ quants
 }
 
 
-qdgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL)
+qdgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",lambda5=NULL){
+	dqgl(p=p,lambda1=lambda1,lambda2=lambda2,lambda3=lambda3,lambda4=lambda4,param=param,lambda5=lambda5)}
+
+dqgl <- function(p,lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",lambda5=NULL)
 {
 # Don't allow characters in lambda5 - common error with parameterisation stuff
 if(is.character(lambda5)) {stop(paste("lambda5=",lambda5,"It should be a number between -1 and 1"))}
@@ -133,19 +138,21 @@ result <- switch(param,
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
-	fmkl=.qdgl.fmkl(p,lambdas),
+	FKML=,
+	fkml=,
+	fmkl=.dqgl.fmkl(p,lambdas),
 	ramberg=, # Ramberg & Schmeiser
 	ram=,
 	RS=,
-	rs=.qdgl.rs(p,lambdas),
-	fm5 = .qdgl.fm5(p, lambdas),
-	stop("Error: Parameterisation must be fmkl, fm5 or rs")
+	rs=.dqgl.rs(p,lambdas),
+	fm5 = .dqgl.fm5(p, lambdas),
+	stop("Error: Parameterisation must be fkml, fm5 or rs")
 	) # closes "switch"
 result
 }
 
 
-.qdgl.rs <- function(p,lambdas)
+.dqgl.rs <- function(p,lambdas)
 {
 # Check the values are OK)
 if(!gl.check.lambda(lambdas,param="rs",vect=TRUE)) {
@@ -160,10 +167,10 @@ dens
 }
 
 
-.qdgl.fmkl <- function(p,lambdas)
+.dqgl.fmkl <- function(p,lambdas)
 {
 # Check the values are OK)
-if(!gl.check.lambda(lambdas,param="fmkl",vect=TRUE)) {
+if(!gl.check.lambda(lambdas,param="fkml",vect=TRUE)) {
         stop(paste("The parameter values", paste(lambdas,collapse=" "),
 "\ndo not produce a proper distribution with the FMKL",
 "parameterisation - see \ndocumentation for gl.check.lambda"))
@@ -176,7 +183,7 @@ dens <- lambdas[2]/(p^(lambdas[3] - 1) + (1 - p)^(lambdas[4] - 1))
 dens
 }
 
-.qdgl.fm5 <- function(p,lambdas)
+.dqgl.fm5 <- function(p,lambdas)
 {
 # Check the values are OK)
 if(!gl.check.lambda(lambdas,param="fm5",vect=TRUE)) {

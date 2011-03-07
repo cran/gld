@@ -1,7 +1,7 @@
 plotgld <- function(lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,
-  param="fmkl",lambda5=NULL, new.plot = TRUE, truncate = 0, bnw = FALSE,
+  param="fmkl",lambda5=NULL, add=NULL, truncate = 0, bnw = FALSE,
   col.or.type = 1, granularity = 4000,xlab = "x", ylab=NULL, 
-  quant.probs = seq(0,1,.25), ...)
+  quant.probs = seq(0,1,.25), new.plot = NULL, ...)
 {
 # standard parameter fixin - copied directly from dgl, but we want the 
 # warnings to happen in this function.
@@ -13,6 +13,16 @@ if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
 "\ndo not produce a proper distribution with the",param,
 "parameterisation - see \ndocumentation for gl.check.lambda"))
         }
+if (is.null(new.plot)) {
+	if (is.null(add)) {new.plot <- TRUE } else {
+	new.plot <- !add } } else { 
+	if (!is.null(add)) {warning("new.plot and add both set.  Using add and ignoring new.plot") 
+		new.plot <- !add
+}} 
+	# If neither set - then add should be FALSE, new.plot TRUE
+	# If add is set, set new.plot to be used internally
+	# If new.plot is set, use it internally
+	# If both are set, give a warning and use add.
 u <- seq(from = 0, to = 1, by = 1/granularity)
 # Only difference across parameterisations is calculating the 
 # quantiles and density
@@ -139,7 +149,7 @@ if (!is.null(quant.probs)){quantile(quantiles,quant.probs) }
 
 plotglc <- function(lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,
   param="fmkl",lambda5=NULL, granularity=4000, xlab="x",
-  ylab="cumulative probability",...)
+  ylab="cumulative probability",add=FALSE,...)
 {
 # standard parameter fixin' - copied directly from dgl, but we want the 
 # warnings to happen in this function.
@@ -154,5 +164,6 @@ if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
 	u <- seq(from = 1/granularity, to = 1 - 1/granularity, length = 
 		granularity - 1)
 	x <- qgl(u,lambda1=lambdas,param=param)
-	plot(x, u, pch = ".",xlab=xlab,ylab=ylab,...)
+	if (add) {lines(x, u, pch = ".",xlab=xlab,ylab=ylab,...)} else {
+	plot(x, u, pch = ".",xlab=xlab,ylab=ylab,...) }
 }

@@ -1,6 +1,7 @@
 \name{GeneralisedLambdaDistribution}
 \alias{dgl}
 \alias{qdgl}
+\alias{dqgl}
 \alias{pgl}
 \alias{qgl}
 \alias{rgl}
@@ -16,17 +17,19 @@ a five parameter version of the FMKL, the \code{fm5}.
 }
 \usage{
 dgl(x, lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
-  param = "fmkl", lambda5 = NULL, inverse.eps = 1e-08, 
+  param = "fkml", lambda5 = NULL, inverse.eps = .Machine$double.eps,
   max.iterations = 500)
+dqgl(p, lambda1, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
+  param = "fkml", lambda5 = NULL)
 qdgl(p, lambda1, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
-  param = "fmkl", lambda5 = NULL)
+  param = "fkml", lambda5 = NULL)
 pgl(q, lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
-  param = "fmkl", lambda5 = NULL, inverse.eps = 1e-08, 
+  param = "fkml", lambda5 = NULL, inverse.eps = .Machine$double.eps,
   max.iterations = 500)
 qgl(p, lambda1, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
-  param = "fmkl", lambda5 = NULL)
+  param = "fkml", lambda5 = NULL)
 rgl(n, lambda1=0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
-  param = "fmkl", lambda5 = NULL)
+  param = "fkml", lambda5 = NULL)
 }
 \arguments{
   \item{x,q}{vector of quantiles.}
@@ -59,7 +62,7 @@ rgl(n, lambda1=0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
   \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
   (paper to appear)}
   \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
-	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
+	\eqn{F(x)}, defaults to \code{.Machine$double.eps}}
   \item{max.iterations}{Maximum number of iterations in the numerical 
 	determination of \eqn{F(x)}, defaults to 500}
 }

@@ -26,3 +26,13 @@ print(object$optim.results$convergence)
 cat("Message: ")
 print(object$optim.results$message)
 }
+
+plot.starship <- function(x,ask=FALSE,one.page=TRUE,breaks="Sturges",histogram.title=NULL,...)
+{
+if (ask) {par(ask) <- TRUE}
+if (one.page) {opar <- par(mfrow=c(2,1))}
+qqgl(y=x$data,lambda.pars1=x$lambda,param=x$param,xlab="Fitted Theoretical Quantiles")
+hist(x$data,prob=TRUE,xlab="Data",breaks=breaks,main=histogram.title,...)
+plotgld(lambda1=x$lambda,param=x$param,new=FALSE,...)
+if (one.page) {par(opar)} # Return to previous par
+}

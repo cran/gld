@@ -15,7 +15,7 @@ the parameters that do this.
 }
 \usage{
 starship(data, optim.method = "Nelder-Mead", initgrid = NULL, 
-inverse.eps = 1e-08, param="FMKL", optim.control=NULL)
+inverse.eps = .Machine$double.eps, param="FMKL", optim.control=NULL, return.data=FALSE)
 }
 \arguments{
   \item{data}{Data to be fitted, as a vector}
@@ -46,7 +46,7 @@ and \code{levect} defaults to:
 \tabular{ccccc}{-0.5\tab 0.25\tab 0\tab 0.25\tab 0.5}
 	}
 \item{inverse.eps}{Accuracy of calculation for the numerical determination of 
-	\eqn{F(x)}, defaults to \eqn{10^{-8}}{1e-8}}
+	\eqn{F(x)}, defaults to \code{.Machine$double.eps}}
 \item{param}{choose parameterisation: 
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
@@ -55,8 +55,8 @@ and \code{levect} defaults to:
 \item{optim.control}{List of options for the optimisation step.  See
 \code{\link{optim}} for details.  If left as NULL, the parscale 
 control is set to scale \eqn{\lambda_1}{lambda 1}
-and \eqn{\lambda_2}{lambda 2} by the absolute value of their starting points.
-}
+and \eqn{\lambda_2}{lambda 2} by the absolute value of their starting points.  }
+\item{return.data}{Logical: Should the function return the data (from the argument \code{data})?}
 }
 \details{
 The starship method is described in King \& MacGillivray, 1999 (see

@@ -1,16 +1,17 @@
-.gl.parameter.tidy <- function(lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",lambda5=NULL) 
+.gl.parameter.tidy <- function(lambda1,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",lambda5=NULL) 
 {
 # Don't allow characters in lambda5 - common error with parameterisation stuff
 if(is.character(lambda5)) {stop(paste("lambda5=",lambda5,"It should be a number between -1 and 1"))}
 # Don't allow numbers in parameterisation - included as a warning here, so the main one is a stop.
 if(!is.character(param)) {warning(paste("param=",param,"It shouldn't be a number, it should be a string describing the parameterisation"))}
+if(is.null(lambda1)) { stop("No values provided for lambda parameters, argument lambda1 is NULL") }
 if(length(lambda1) > 1) #using a vector for the parameters.  
 	# Check that there aren't values in the individual lambda arguments
 	{
 	if (!(is.null(lambda2) & is.null(lambda3)& is.null(lambda4) & is.null(lambda5)) ) 
 		{ stop("Call includes vector version of the lambda parameters as well as the \nscalar version") }
 	if ((length(lambda1) < 4) | (length(lambda1) > 5 ) )  
-		{ stop(paste("argument lambda1 has length", length(lambda1),"\nThis should be 1 (lambda parameters given as seperate arguments), 4 (vector argument \n for RS or FMKL parameterisation) or 5 (vector argument for fm5 parameterisation")) }
+		{ stop(paste("argument lambda1 has length", length(lambda1),"\nThis should be 1 (lambda parameters given as seperate arguments), 4 (vector argument \n for RS or FKML parameterisation) or 5 (vector argument for fm5 parameterisation")) }
 	if (length(lambda1)== 5)
 		{ if (param != "fm5") { 
 			stop(paste("argument lambda1 has length",length(lambda1),"which is not valid for the",param,"\nparameterisation")) 
@@ -44,7 +45,7 @@ as.double(lambda1)
 }
 
 gl.check.lambda <-  function(lambdas,lambda2=NULL,lambda3=NULL,lambda4=NULL,
-param="fmkl",lambda5=NULL,vect=FALSE)
+param="fkml",lambda5=NULL,vect=FALSE)
 {
 # Checks to see that the lambda values given are allowed.
 # There is a function called .gl.parameter.tidy that does the tidying 
@@ -73,7 +74,9 @@ param <- switch(param,
 	freimer=,  # allows for alternate expressions
 	frm=,  # allows for alternate expressions
 	FMKL=,
-	fmkl={
+	FKML=,
+	fmkl=,
+	fkml={
 	if (lambda2<=0) {return(FALSE)}
 	else {return(TRUE)}
 	},
@@ -139,7 +142,7 @@ param <- switch(param,
 		lambda5 <- lambdas[5]
 		if (lambda2<=0) {ret <- FALSE}
 		else { #Check lambda5 - should be between -1 and 1, but I haven't checked this against a piece of paper
-			if ((lambda5 >= -1) & (lambda5 <= 1)) {ret <- TRUE}
+			if ((lambda5 >= -1) | (lambda5 <= 1)) {ret <- TRUE}
 			else {ret <- FALSE}
 		}	
 	},

@@ -1,5 +1,5 @@
-dgl <- function(x,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",
-  lambda5=NULL,inverse.eps=1e-8,max.iterations=500)
+dgl <- function(x,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",
+  lambda5=NULL,inverse.eps=.Machine$double.eps,max.iterations=500)
 {
 # Tidy the parameters so gl.check.lambda will work
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
@@ -16,13 +16,13 @@ extreme<-qgl(c(0,1),lambda1=lambdas,param=param)
 # (x <= extreme[2])*(x >= extreme[1])
 outside.range <- !as.logical((x<=extreme[2])*(x>=extreme[1]))
 u <- pgl(x,lambdas,param=param,inverse.eps=inverse.eps,max.iterations=max.iterations)
-dens <- qdgl(u,lambda1=lambdas,param=param)
+dens <- dqgl(u,lambda1=lambdas,param=param)
 dens[outside.range] <- 0
 dens
 }
 
-pgl <- function(q,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fmkl",
-    lambda5=NULL,inverse.eps=1e-8,max.iterations=500)
+pgl <- function(q,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",
+    lambda5=NULL,inverse.eps=.Machine$double.eps,max.iterations=500)
 {
 # Thanks to Steve Su, <s.su@qut.edu.au>, for improvements to this code
 # If lambda1 is a vector, the default value for lambda2 will cause a problem.
@@ -56,6 +56,8 @@ result <- switch(param,
 	freimer=, # allows for alternate expressions 
 	frm=, # allows for alternate expressions 
 	FMKL=, # Notes on .C call - the "numerics", lambdas and inverse.eps don't need the as.??? call as they are implicitly double
+	FKML=, 
+	fkml=, 
 	fmkl=.C("gl_fmkl_distfunc",lambdas[1],lambdas[2],lambdas[3],lambdas[4], 
 		as.double(0),as.double(1),inverse.eps,
 		as.integer(max.iterations),as.double(q),as.double(u),

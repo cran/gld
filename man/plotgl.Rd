@@ -13,12 +13,12 @@ uses the depths to produce the values to plot is more efficient
 }
 \usage{
 plotgld(lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
-  param = "fmkl", lambda5 = NULL, new.plot = TRUE, truncate = 0, 
+  param = "fmkl", lambda5 = NULL, add = NULL, truncate = 0, 
   bnw = FALSE, col.or.type = 1, granularity = 4000, xlab = "x", 
-  ylab = NULL, quant.probs = seq(0,1,.25), ...)
+  ylab = NULL, quant.probs = seq(0,1,.25), new.plot = NULL,  ...)
 plotglc(lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
   param = "fmkl", lambda5 = NULL, granularity = 4000, xlab = "x", 
-  ylab = "cumulative probability", ...)
+  ylab = "cumulative probability", add = FALSE, ...)
 }
 \arguments{
   \item{lambda1}{This can be either a single numeric value or a vector.  
@@ -47,9 +47,9 @@ plotglc(lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
   \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
   (paper to appear)}
-  \item{new.plot}{a logical value describing whether this should produce a
-new plot (using \code{plot}), or add to an existing plot (using
-\code{lines})}
+  \item{add}{a logical value describing whether this should add to an existing plot (using
+\code{lines}) or produce a new plot (using \code{plot}). Defaults to FALSE (new plot) if
+both \code{add} and \code{new.plot} are NULL.}
   \item{truncate}{for \code{plotgld}, a minimum density value at which the
 plot should be truncated.}
   \item{bnw}{a logical value, true for a black and white plot, with different
@@ -63,6 +63,9 @@ densities identified using line colour (\code{col})}
   \item{ylab}{Y axis label}
   \item{quant.probs}{Quantiles of distribution to return (see \emph{value}
 below).  Set to NULL to suppress this return entirely.}
+  \item{new.plot}{a logical value describing whether this should produce a
+new plot (using \code{plot}), or add to an existing plot (using
+\code{lines}).  Ignored if \code{add} is set.}
   \item{...}{arguments that get passed to \code{plot} if this is a new plot}
 }
 \details{
