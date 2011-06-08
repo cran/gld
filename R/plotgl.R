@@ -36,8 +36,8 @@ check.for.jump2 <- qgl(1-nearzero,lambda1=lambdas,param=param)
 if (is.finite(check.for.jump[1])) # warning and different plot
 	{
 	first.space <- check.for.jump[2] - check.for.jump[1]
-	from1to3 <- check.for.jump[3] - check.for.jump[2]
-	if (first.space > (from1to3 * 1e10)) {
+	from2to3 <- check.for.jump[3] - check.for.jump[2]
+	if ((first.space > (from2to3 * 20)) & (from2to3>0)) {
 		warning(paste("These parameter values give a pathological density.  \n",
 		"The theoretical minimum: F^{-1}(0)= ",signif(check.for.jump[1],4),"\n is much less than F^{-1}("
 		,signif(nearzero[2],4),")= ",signif(check.for.jump[2],4),".\n","The density is undefined between these points",sep=""))
@@ -49,8 +49,8 @@ if (is.finite(check.for.jump[1])) # warning and different plot
 if (is.finite(check.for.jump2[1])) # warning and different plot
 	{
 	last.space <- check.for.jump2[1] - check.for.jump2[2]
-	from1to3 <- check.for.jump2[2] - check.for.jump2[3]
-	if (last.space > (from1to3 * 1e10)) {
+	from2to3 <- check.for.jump2[2] - check.for.jump2[3]
+	if ((last.space > (from2to3 * 20)) & (from2to3>0)){
 		warning(paste("These parameter values give a pathological density.  \n",
 		"The theoretical maximum: F^{-1}(1)= ",signif(check.for.jump2[1],4),
 		"\n is much more than F^{-1}(1-", signif(nearzero[2],4),")= ",signif(check.for.jump2[2],4),".\n","The density is undefined between these points",sep=""))

@@ -27,12 +27,18 @@ cat("Message: ")
 print(object$optim.results$message)
 }
 
-plot.starship <- function(x,ask=FALSE,one.page=TRUE,breaks="Sturges",histogram.title=NULL,...)
+plot.starship <- function(x,data=NULL,ask=FALSE,one.page=TRUE,breaks="Sturges",histogram.title=NULL,...)
 {
+if (is.null(x$data)){
+	if (is.null(data)) {stop("No data to compare fit to")} 
+} else {
+	if (is.null(data)) {data <- x$data #using data returned by starship function
+		} else { 
+		warning(paste(substitute(x),"has a data element and the data argument was also given.\nUsing ",paste(substitute(data))," instead of the data element of ",substitute(x))) } }
 if (ask) {par(ask) <- TRUE}
 if (one.page) {opar <- par(mfrow=c(2,1))}
-qqgl(y=x$data,lambda.pars1=x$lambda,param=x$param,xlab="Fitted Theoretical Quantiles")
-hist(x$data,prob=TRUE,xlab="Data",breaks=breaks,main=histogram.title,...)
+qqgl(y=data,lambda.pars1=x$lambda,param=x$param,xlab="Fitted Theoretical Quantiles")
+hist(data,prob=TRUE,xlab="Data",breaks=breaks,main=histogram.title,...)
 plotgld(lambda1=x$lambda,param=x$param,new=FALSE,...)
 if (one.page) {par(opar)} # Return to previous par
 }

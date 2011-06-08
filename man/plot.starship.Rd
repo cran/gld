@@ -4,11 +4,12 @@
 \description{Plots to compare a Generalised Lambda Distribution fitted via 
 the \code{\link{starship}} to data}
 \usage{
-\method{plot}{starship}(x, ask = FALSE, one.page = TRUE, breaks = "Sturges", histogram.title = NULL,...)
+\method{plot}{starship}(x, data, ask = FALSE, one.page = TRUE, breaks = "Sturges", histogram.title = NULL,...)
 
 }
 \arguments{
   \item{x}{An object of class  \code{\link{starship}}.}
+  \item{data}{Data to which the gld was fitted.  Leave this as NULL if the return.data argument was TRUE in the \code{\link{starship}} call that created x.}
   \item{ask}{Ask for user input before next plot --- passed to \code{\link{par}(ask)}.  Does not permanently change this setting. Ignored if \code{one.page} is TRUE}
   \item{one.page}{Put the two plots on one page using \code{\link{par}(mfrow=c(2,1))}. Does not permanently change this setting.}
   \item{breaks}{Control the number of histogram bins --- passed to \code{\link{hist}}.}
