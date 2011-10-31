@@ -35,7 +35,7 @@ if (is.null(x$data)){
 	if (is.null(data)) {data <- x$data #using data returned by starship function
 		} else { 
 		warning(paste(substitute(x),"has a data element and the data argument was also given.\nUsing ",paste(substitute(data))," instead of the data element of ",substitute(x))) } }
-if (ask) {par(ask) <- TRUE}
+if (ask) {par(ask=TRUE)}
 if (one.page) {opar <- par(mfrow=c(2,1))}
 qqgl(y=data,lambda.pars1=x$lambda,param=x$param,xlab="Fitted Theoretical Quantiles")
 hist(data,prob=TRUE,xlab="Data",breaks=breaks,main=histogram.title,...)
