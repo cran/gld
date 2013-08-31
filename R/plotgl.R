@@ -1,6 +1,6 @@
 plotgld <- function(lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,
   param="fmkl",lambda5=NULL, add=NULL, truncate = 0, bnw = FALSE,
-  col.or.type = 1, granularity = 4000,xlab = "x", ylab=NULL, 
+  col.or.type = 1, granularity = 10000,xlab = "x", ylab=NULL,
   quant.probs = seq(0,1,.25), new.plot = NULL, ...)
 {
 # standard parameter fixin - copied directly from dgl, but we want the 
@@ -60,7 +60,7 @@ if (is.finite(check.for.jump2[1])) # warning and different plot
 		}
 	}
 if(truncate > 0) { 
-	# If truncated, not RS pathological problem, because density at the endpoint is zero
+	# If truncated, not RS pathological problem, because we are not plotting density at the endpoint
 	if(new.plot) {
 		if (is.null(ylab)){
 			ylab <- paste( "probability density (values below", deparse(substitute(truncate)), "not shown)")
@@ -122,33 +122,30 @@ else {
 	else {
 		# Not a new plot - so the initial plots with type "n" arent needed in the
 		# dots required case
-		if(bnw) {
-			if (dots.required) {
-				points(quantiles[1],density[1])
-				points(quantiles[granularity+1],density[granularity+1])
-				lines(quantiles[-c(1,granularity+1)], density[-c(1,granularity+1)], lty=col.or.type, ...)
+		if (dots.required) {
+			if (dots.start) {
+	                        if(bnw) { points(quantiles[1],density[1]) } else {
+					points(quantiles[1],density[1],col=col.or.type) } 
+                                start.line <- 2 } else { start.line <- 1 
 				}
-			else {
-				lines(quantiles, density, lty = col.or.type)
-				}
-			}
-		else {
-			if (dots.required) {
-				points(quantiles[1],density[1],...)
-				points(quantiles[granularity+1],density[granularity+1],...)
-				lines(quantiles[-c(1,granularity+1)], density[-c(1,granularity+1)], col=col.or.type, ...)
-				}
-			else {		
-				lines(quantiles, density, col = col.or.type)
-				}
-			}
+			if (dots.end) {
+                                if (bnw) {points(quantiles[granularity+1],density[granularity+1]) }
+                                else {points(quantiles[granularity+1],density[granularity+1],col=col.or.type) }
+                                end.line <- granularity
+                                } else {end.line <- granularity+1}
+			} else {
+			start.line <- 1
+                        end.line <- granularity+1
+		}
+		if (bnw) {lines(quantiles[start.line:end.line], density[start.line:end.line], lty = col.or.type)}
+		else {lines(quantiles[start.line:end.line], density[start.line:end.line], type="l",xlab = xlab,ylab = ylab, col=col.or.type, ...) }
 		}
 	}
 if (!is.null(quant.probs)){quantile(quantiles,quant.probs) } 
 }
 
 plotglc <- function(lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,
-  param="fmkl",lambda5=NULL, granularity=4000, xlab="x",
+  param="fmkl",lambda5=NULL, granularity=10000, xlab="x",
   ylab="cumulative probability",add=FALSE,...)
 {
 # standard parameter fixin' - copied directly from dgl, but we want the 

@@ -46,7 +46,7 @@ double  *pu1,double *pu2,double *pxacc, int *max_it,
 double *ecks, double *u, int *lengthofdata)
 {
 
-/* pa to pd:    pointers to the values of the parameters of the gld (rs param)
+/* pa to pd:    pointers to the values of the parameters of the gld (fmkl param)
  * pu1:         minimum value of u, should be zero
  * pu2:         maximum value of u, should be 1
  * pxacc:       desired accuracy of the calculation
@@ -97,11 +97,11 @@ for (i=0;i<*lengthofdata;i++)
 	if (fl*fh >= 0.0) 
 	{
 		/* This is suggested in writing R extensions, but still gives the warning */
-		/* error("Program aborted at parameter values %f, %f, %f, %f\n The data value being investigated was index %d, value: %f\n", *pa, *pb, *pc, *pd, i, x); */
-		fprintf(stderr,"C code aborted at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
-		fprintf(stderr,"The data value being investigated was index %d",i);
-		fprintf(stderr," value: %f\n",x);
-		error("C code numerical failure");
+		error("Program aborted at parameter values %f, %f, %f, %f\n The data value being investigated was index %d, value: %f\n", *pa, *pb, *pc, *pd, i, x);
+		/* fprintf(stderr,"C code aborted at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd); */
+		/* fprintf(stderr,"The data value being investigated was index %d",i); */
+		/* fprintf(stderr," value: %f\n",x); */
+		/* error("C code numerical failure"); */
 	}
 	if (fl < 0.0) {
 		xl = u1;

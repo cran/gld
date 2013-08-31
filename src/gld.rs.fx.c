@@ -78,12 +78,7 @@ for (i=0;i<l;i++)
 	funcd(x1,&fl,&df);
 	funcd(x2,&fh,&df);
 	if (fl*fh >= 0.0) {
-		fprintf(stderr,"Program aborted during calculation of F(x)");
-		fprintf(stderr,"at parameter values %f, %f, %f, %f\n", *pa, *pb, *pc, *pd);
-		fprintf(stderr,"The x value being investigated was index: %d",i);
-		fprintf(stderr," value: %f\n",x);
-		error("C code numerical failure");
-
+		error("gld package C code numerical failure (this should not happen - please report to maintainer)\n Program aborted during calculation of F(x)\n at parameter values %f, %f, %f, %f\n The x value was index: %d, value %f\n",*pa, *pb, *pc, *pd, i, x);
 		}
 	if (fl < 0.0) {
 		xl = x1;

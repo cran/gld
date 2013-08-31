@@ -1,3 +1,22 @@
+2.0.1 
+removed \usage lines wider than 90 characters
+
+2.0
+Added VSK/GPD parameterisation (all basic functions and starship)
+Removed default values of initgrid in starship.adaptivegrid() - users now 
+need to specify an initial grid if using this function.  starship() 
+still provides the same default when starship.adaptivegrid is called.
+C error message improvements
+Changes to the way the default initgrid is used in the starship function
+
+1.9.4
+Debugged
+.First.lib removed 
+stderr references removed
+
+1.9.3
+Debug plotgld() for pathological densities
+
 1.9.2
 NAMESPACE added
 

@@ -104,10 +104,7 @@ for (i=0;i<*lengthofdata;i++)
 	fm5_funcd(u2,x,&fh,&df,pa,pb,pc,pd,pe);
 	if (fl*fh >= 0.0) 
 	{
-		fprintf(stderr,"Program aborted at parameter values %f, %f, %f, %f %f\n", *pa, *pb, *pc, *pd, *pe);
-		fprintf(stderr,"The data value being investigated was index %d",i);
-		fprintf(stderr," value: %f\n",x);
-		error("C code failure - see error message printed above");
+		error("gld package C code numerical failure (this should not happen - please report to maintainer)\n Program aborted during calculation of F(x)\n at parameter values %f, %f, %f, %f, %f \n The x value was index: %d, value %f\n",*pa, *pb, *pc, *pd, *pe, i, x);
 	}
 	if (fl < 0.0) {
 		xl = u1;
