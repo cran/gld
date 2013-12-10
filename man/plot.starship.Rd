@@ -1,8 +1,8 @@
 \name{plot.starship}
 \alias{plot.starship}
 \title{Plots to compare a fitted generalised lambda distribution to data}
-\description{Plots to compare a Generalised Lambda Distribution fitted via 
-the \code{\link{starship}} to data}
+\description{Plots to compare estimated Generalised Lambda Distribution
+parameters to data}
 \usage{
 \method{plot}{starship}(x, data, ask = FALSE, one.page = TRUE, 
     breaks = "Sturges", histogram.title = NULL,...)
@@ -18,6 +18,10 @@ the \code{\link{starship}} to data}
 }
 \details{
 \code{summary} Gives the details of the \code{\link{starship.adaptivegrid}} and \code{optim} steps.
+
+The class is named \code{starship}, after the first estimation method
+implemented in this package, but this plot is available for any 
+estimated generalised lambda parameters.
 }
 \references{ Freimer, M., Mudholkar, G. S., Kollia, G. & Lin, C. T. (1988), 
 	\emph{A study of the generalized tukey lambda family}, Communications 

@@ -4,7 +4,7 @@
 distribution}
 \description{
   Checks the validity of parameters of the generalized lambda.  The tests 
-  are simple for the FMKL and FM5 parameterisations, and  much more 
+  are simple for the FMKL, FM5 and GPD parameterisations, and  much more 
   complex for the RS parameterisation.
 }
 \usage{
@@ -35,6 +35,7 @@ gl.check.lambda(lambdas, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, param =
     fm5 parameterisation}
   \item{param}{choose parameterisation:
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
+  \code{gpd} uses the GPD type \emph{van Staden and Loots (2009)}
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
   \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
   (paper to appear)}
@@ -57,6 +58,11 @@ gl.check.lambda(lambdas, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, param =
   \eqn{\lambda_4}{lambda 4}, any positive real values of 
   \eqn{\lambda_2}{lambda 2} and values of \eqn{\lambda_5}{lambda 5} that 
   satisfy \eqn{-1 \leq \lambda_5 \leq 1}{-1 <= lambda5 <= 1}.
+  
+  The GPD type gives a valid distribution for any real 
+  values of \eqn{\alpha}{alpha} and \eqn{\lambda}{lambda},
+  any positive real values of \eqn{\beta}{beta} and values of 
+  \eqn{\delta}{delta} that satisfy \eqn{0 \leq \delta \leq 1}{0 <= delta <= 1}
 
   For the RS parameterisation, the combinations of parameters value that give 
   valid distributions are the following (the region numbers in the table 

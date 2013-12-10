@@ -94,7 +94,8 @@ of the parameters produce valid statistical distributions.  See
 Another parameterisation, the GPD, chosen by setting \code{param="gpd"} is
 due to van Staden and Loots (2009), with a quantile function:
 
-\deqn{Q(u) = \alpha + \beta ((1-\delta)\frac{(u^\lambda -1)}{\lambda} - \delta\frac{((1-u)^\lambda -1)}{\lambda} )}{Q(u) = alpha + beta ((1-delta)(u^lambda -1)/(lambda) - delta((1-u)^lambda -1)/lambda }
+\deqn{Q(u) = \alpha + \beta ((1-\delta)\frac{(u^\lambda -1)}{\lambda} - \delta\frac{((1-u)^\lambda -1)}{\lambda} )}{Q(u) = alpha + beta 
+( (1-delta)(u^lambda -1)/(lambda) - delta((1-u)^lambda -1)/lambda )}
 for \eqn{\beta > 0}{beta >0} 
 and \eqn{-1 \leq \delta \leq 1}{-1 <= delta <= 1}.
 (where the parameters appear in the \code{par} argument to the function in the order \eqn{\alpha,\beta,\delta,\lambda}).  This parameterisation has simpler 

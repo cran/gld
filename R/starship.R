@@ -1,51 +1,61 @@
 starship <- function(data,optim.method="Nelder-Mead",initgrid=NULL,
 	inverse.eps=.Machine$double.eps,param="FMKL",optim.control=NULL,return.data=FALSE) 
 {
-# call adaptive grid first to find a first minimum
-if (is.null(initgrid) ) {
-  # default initgrid - depends on parameters
-  if (param=="FMKL"| param=="FKML" | param=="fmkl"| param=="fkml" | param=="freimer" | param=="frm") {
-    initgrid=list(
-      lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), 
-      ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5))
+  if (param=="FMKL"| param=="FKML" | param=="fmkl"| param=="fkml" | param=="freimer" | param=="frm") { # Use the fit.fkml function instead
+    if (is.null(initgrid) ) {
+      l3.grid=c(-0.9,-0.5,-0.1,0,0.1,0.2,0.4,0.8,1,1.5) 
+      l4.grid=l3.grid
+    } else {
+      l3.grid=initgrid$lcvect
+      l4.grid=initgrid$ldvect
     }
-  if (param=="RS"| param=="rs" | param=="ramberg" | param=="ram") {
-    initgrid = list(lcvect=c(0.1,0.2,4,0.8,1,1.5),
-      ldvect=c(0.1,0.2,4,0.8,1,1.5))
+  fit.fkml.result = fit.fkml(data,method="SM",t1=0, t2=1,l3.grid=l3.grid,l4.grid=l4.grid, record.cpu.time = FALSE,optim.method=optim.method,optim.control=optim.control,return.data=return.data,inverse.eps=inverse.eps)
+  # t1,t2 only required for TL moment fitting
+  result <- fit.fkml.result
+  } else { # old starship function, now not used for fkml
+  # call adaptive grid first to find a first minimum
+  if (is.null(initgrid) ) {
+    # default initgrid - depends on parameters
+    if (param=="RS"| param=="rs" | param=="ramberg" | param=="ram") {
+      initgrid = list(lcvect=c(0.1,0.2,4,0.8,1,1.5),
+        ldvect=c(0.1,0.2,4,0.8,1,1.5))
+      }
+    if (param=="fm5") {
+      initgrid=list(
+        lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), 
+        ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5),
+        levect=c(-0.5,-0.25,0,0.25,0.5))
+      }
+    if (param=="VSK"| param=="vsk" | param=="gpd" | param=="GPD") {
+      initgrid=list(
+        ldvect=c(-1.5,-.5,0,.2,.4,0.8,1.5,5), # lambda
+        lcvect=c(0.3,0.5,0.7)) # delta - restricted to [0,1]
+      }
     }
-  if (param=="fm5") {
-    initgrid=list(
-      lcvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5), 
-      ldvect=c(-1.5,-1,-.5,-.1,0,.1,.2,.4,0.8,1,1.5),
-      levect=c(-0.5,-0.25,0,0.25,0.5))
-    }
-  if (param=="VSK"| param=="vsk" | param=="gpd" | param=="GPD") {
-    initgrid=list(
-      ldvect=c(-1.5,-.5,0,.2,.4,0.8,1.5,5), # lambda
-      lcvect=c(0.3,0.5,0.7)) # delta - restricted to [0,1]
-    }
-  }
-else 	{
-  # initgrid taken from arguments - the parameter values in grid are not checked
-	}
-gridmin <- starship.adaptivegrid(data,initgrid,inverse.eps=inverse.eps,param=param)
-# If they haven't sent any control parameters, scale by max(lambda1,1),
-# lambda2 (can't be <= 0), don't scale for lambda3, lambda4 or lambda5
-if (is.null(optim.control) ) {
-	if (param=="fm5") {
-		optim.control <- list(parscale=c(max(1,abs(gridmin$lambda[1])), abs(gridmin$lambda[2]),1,1,1))
-		}
-	else {	
-		optim.control <- list(parscale=c(max(1,abs(gridmin$lambda[1])), abs(gridmin$lambda[2]), 1,1))
-		}
-	}
-# else use what they sent - this should allow the user to change other stuff 
-# in the control - this will mean that parscale is the default unless they
-# change it also
-# call optimiser
-optimmin <- optim(par=gridmin$lambda,fn=starship.obj,method=optim.method,
-	control=optim.control,data=data,param=param,inverse.eps=inverse.eps)
-result <- list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin,param=param)
+  else 	{
+    # initgrid taken from arguments - the parameter values in grid are not checked
+	  }
+  gridmin <- starship.adaptivegrid(data,initgrid,inverse.eps=inverse.eps,param=param)
+  # If they haven't sent any control parameters, scale by max(lambda1,1),
+  # lambda2 (can't be <= 0), don't scale for lambda3, lambda4 or lambda5
+  if (is.null(optim.control) ) {
+  	if (param=="fm5") {
+  		optim.control <- list(parscale=c(max(1,abs(gridmin$lambda[1])), abs(gridmin$lambda[2]),1,1,1))
+  		}
+  	else {	
+  		optim.control <- list(parscale=c(max(1,abs(gridmin$lambda[1])), abs(gridmin$lambda[2]), 1,1))
+  		}
+  	}
+  # else use what they sent - this should allow the user to change other stuff 
+  # in the control - this will mean that parscale is the default unless they
+  # change it also
+  # call optimiser
+  optimmin <- optim(par=gridmin$lambda,fn=starship.obj,method=optim.method,
+	  control=optim.control,data=data,param=param,inverse.eps=inverse.eps)
+  # Add the optimisation method to the list
+  optimmin$optim.method = optim.method
+  result <- list(lambda=optimmin$par,grid.results=gridmin,optim.results=optimmin,param=param)
+# All this stuff is done inside fit.fkml for the fkml
 if (return.data) {result$data = data}
 # Apply starship class to result
 class(result) <- "starship"
@@ -55,6 +65,7 @@ if (param=="VSK"| param=="vsk" | param=="gpd" | param=="GPD") {
   } else { # any other parameterisation
   names(result$lambda) <- paste("lambda",1:length(result$lambda),sep="")
   }
+} # end of section for non-fkml parameterisations
 result
 }
 

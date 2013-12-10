@@ -1,3 +1,5 @@
-export(dgl,dqgl,gl.check.lambda,pgl,plotglc,plotgld,plot.starship,print.starship,qdgl,qgl,qqgl,rgl,starship,starship.adaptivegrid,starship.obj,summary.starship)
+export(dgl,dqgl,gl.check.lambda,pgl,plotglc,plotgld,starship,starship.obj,
+       plot.starship,print.starship,starship.adaptivegrid,summary.starship,
+       qdgl,qgl,qqgl,rgl,fit.fkml)
 import(graphics)
-useDynLib(gld,gl_fmkl_distfunc,gl_rs_distfunc,gl_fm5_distfunc,gl_vsk_distfunc)
+useDynLib(gld,gl_fmkl_distfunc,gl_rs_distfunc,gl_fm5_distfunc,gl_vsk_distfunc,fit_fkml)
