@@ -2,7 +2,7 @@
 \alias{plot.starship}
 \title{Plots to compare a fitted generalised lambda distribution to data}
 \description{Plots to compare estimated Generalised Lambda Distribution
-parameters to data}
+parameters to data. This works for the fitted objects created by \code{\link{starship}} and \code{\link{fit.fkml}}.}
 \usage{
 \method{plot}{starship}(x, data, ask = FALSE, one.page = TRUE, 
     breaks = "Sturges", histogram.title = NULL,...)
@@ -42,13 +42,14 @@ Statistics \bold{41}, 353--374
 \url{http://tolstoy.newcastle.edu.au/~rking/}
 }
 \seealso{
-\code{\link{starship}},
+\code{\link{starship}},\code{\link{fit.fkml}}
 }
 \examples{
-data <- rgl(100,0,1,.2,.2)
+set.seed(2308)
+data <-rgl(100,0,1,.2,.2)
 starship.result <- starship(data,optim.method="Nelder-Mead",initgrid=list(lcvect=(0:4)/10,
 ldvect=(0:4)/10),return.data=TRUE)
-plot(starship.result)
+plot(starship.result,one.page=FALSE)
 }
 \keyword{distribution}
 

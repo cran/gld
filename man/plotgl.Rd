@@ -9,7 +9,7 @@ Produces plots of density and distribution function for the generalised lambda
 distribution.  Although you could use \code{plot(function(x)dgl(x))} to do
 this, the fact that the density and quantiles of the generalised lambda are
 defined in terms of the depth, \eqn{u}, means that a seperate function that
-uses the depths to produce the values to plot is more efficient
+uses the depths to produce the values to plot is more efficient.
 }
 \usage{
 plotgld(lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 

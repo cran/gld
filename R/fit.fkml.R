@@ -6,9 +6,10 @@
 # 3. Titterington's Method (TM)
 # 4. Starship Method (SM)
 # 5. Method of TL-moments (TL)
+# 6. Distributional Least Absolute (DLA)
 
 # Written by Benjamin Dean (24/09/2010) 
-# Changes 2013, Robert King
+# Changes 2013,2014 Robert King
 # Example use:
 # x <- rlogis(100)
 # fit.fkml(x, method="ML")
@@ -42,10 +43,11 @@ if (method == "MPS") {method.id <- 2; method.name="Maximum Product of Spacings"}
 if (method == "TM")  {method.id <- 3; method.name="Titterington's"}
 if (method == "SM")  {method.id <- 4; method.name="Starship"}
 if (method == "TL")  {method.id <- 5; method.name="Trimmed L-Moments"}
+if (method == "DLA")  {method.id <- 6; method.name="Distributional Least Absolutes"}
 
 # Perform the fitting process: 
 
-if (method.id != 5) { # ML, MSP, TM or SM (not TL)
+if (method.id != 5) { # ML, MSP, TM, SM or DLA (not TL)
 
   # Starting values from grid search
   grid.results <- grid.search(l3.grid,l4.grid,method.id,x,n,

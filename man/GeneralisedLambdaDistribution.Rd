@@ -97,7 +97,7 @@ due to van Staden and Loots (2009), with a quantile function:
 \deqn{Q(u) = \alpha + \beta ((1-\delta)\frac{(u^\lambda -1)}{\lambda} - \delta\frac{((1-u)^\lambda -1)}{\lambda} )}{Q(u) = alpha + beta 
 ( (1-delta)(u^lambda -1)/(lambda) - delta((1-u)^lambda -1)/lambda )}
 for \eqn{\beta > 0}{beta >0} 
-and \eqn{-1 \leq \delta \leq 1}{-1 <= delta <= 1}.
+and \eqn{0 \leq \delta \leq 1}{0 <= delta <= 1}.
 (where the parameters appear in the \code{par} argument to the function in the order \eqn{\alpha,\beta,\delta,\lambda}).  This parameterisation has simpler 
 L-moments than other parameterisations and \eqn{\delta} is a skewness parameter
 and \eqn{\lambda} is a tailweight parameter.
@@ -169,7 +169,8 @@ Van Staden, Paul J., & M.T. Loots. (2009), \emph{Method of L-moment Estimation f
 
 \examples{
 qgl(seq(0,1,0.02),0,1,0.123,-4.3)
-pgl(seq(-2,2,0.2),0,1,-.1,-.2,param="fmkl",inverse.eps=.Machine$double.eps)
-# calculate the probabilities more accurately than normal
+pgl(seq(-2,2,0.2),0,1,-.1,-.2,param="fmkl",inverse.eps=1e-10)
+rgl(21,c(3,2,0.3,-0.1),param="gpd")
+# calculate the probabilities less accurately than normal
 }
 \keyword{distribution}

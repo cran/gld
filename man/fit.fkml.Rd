@@ -18,7 +18,7 @@ fit.fkml(x, method = "ML", t1 = 0, t2 = 0,
 }
 \arguments{
   \item{x}{Data to be fitted, as a vector}
-  \item{method}{A character string, to select the estimation method.  One of: \code{ML} for Numerical Maximum Likelihood, \code{MPS} or \code{MPS}
+  \item{method}{A character string, to select the estimation method.  One of: \code{ML} for Numerical Maximum Likelihood, \code{MPS} or \code{MSP}
   for Maximum Product of Spacings, \code{TM} for Titterington's Method, \code{SM} for  Starship Method, \code{TL} for  Method of TL-moments, or \code{DLA} for the method of distributional least absolutes.}
   \item{t1}{Number of observations to be trimmed from the left in the conceptual sample, \eqn{t_1}{t1} (A non-negative integer, only used by TL-moment estimation, see details section)}
   \item{t2}{Number of observations to be trimmed from the right in the conceptual sample, \eqn{t_2}{t2} (A non-negative integer, only used by TL-moment estimation, see details section). These two arguments are 
@@ -48,10 +48,11 @@ depths, \eqn{F_\theta(x_{(i+1)})-F_\theta(x_{(i)})}{F(x_(i+1);theta)-F(x_(i);the
 function for the candidate values of the parameters).  See % King & Dean 2013,
 Dean (2013) and Cheng & Amin (1981) for details.
 
-Titterington remarked that MPS effectively added 
+Titterington (1985) remarked that MPS effectively added 
 an ``extra observation''; there are N data points in the original 
 sample, but N + 1 spacings in the expression maximised in MPS.
-Instead of using spacings between transformed data points, this method uses  spacings between transformed, adjacently-averaged, data points.
+Instead of using spacings between transformed data points, so method \code{TM}
+uses  spacings between transformed, adjacently-averaged, data points.
 The spacings are given by \eqn{D_i=F_\theta(z_{(i)})-F_\theta(z_{(i-1)})}{Di=F(z(i);theta)- F(z(i-1);theta)},
 where \eqn{\alpha_1 = z_0 < z_1 < \dots < z_n = \alpha_2}{alpha1 = z0 < z1 < ... 
 <zn = alpha2}
@@ -59,7 +60,7 @@ and \eqn{z_i = (x_{(i)} +x_{(i+1)})/2}{z_i = (x_i + x_(i+1) )/2}
 for i = 1,2, ... n-1
 (where \eqn{\alpha_1}{alpha1} and \eqn{\alpha_2}{alpha2} 
 are the lower and upper bounds on the support of the distribution). 
-This reduces the number of spacings to n and achieves concordance 
+This reduces the number of spacings to \eqn{n}{n} and achieves concordance 
 with the original sample size. See Titterington (1985) and 
 Dean (2013) for details.
 
@@ -144,7 +145,7 @@ Ben Dean, University of Newcastle
 \code{\link{GeneralisedLambdaDistribution}}
 }
 \examples{
-example.data <- rgl(200,c(3,1,.4,0),param="fkml")
+example.data <- rgl(200,c(3,1,.4,-0.1),param="fkml")
 example.fit <- fit.fkml(example.data,"MSP",return.data=TRUE)
 print(example.fit)
 summary(example.fit)

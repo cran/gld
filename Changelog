@@ -1,3 +1,8 @@
+2.2.1
+Bugfixes - DLA wasn't being called correctly
+Also includes some C changes for fit.fkml.  The C code now assumes the data 
+to be fitted has already been sorted
+
 2.2
 New estimation methods for the FKML parameterisation:
 Numerical MLE, Maximum Spacings Product, Titteringtons, L Moments,

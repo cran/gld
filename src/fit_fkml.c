@@ -5,9 +5,10 @@
   3. Titterington's Method (TM)
   4. Starship Method (SM)
   5. Method of TL-moments (TL)
+  6. Distributional Least Absolutes (DLA)
  
 Written by Benjamin Dean (21/09/2010)
-Changes, Robert King (23/10/2013)
+Changes: Robert King (23/10/2013), Benjamin Dean (03/11/2013)
 
 Acknowledgements: The "do_Fx" function is a modified version of gld.fmkl.fx.c, 
 which was written by Robert King. This file is included in the "gld" package,
@@ -15,6 +16,7 @@ which can be downloaded from http://www.r-project.org. It was released under
 the GNU General Public License. */
 
 // TODO: Take inverse.eps as an argument to do_Fx and fit_fkml from R
+/* Note: The objective functions assume that the data (x) is sorted */
 
 #include <R.h>
 #include <math.h>
@@ -34,14 +36,8 @@ void do_diffn (const double *, const double *, double *, double *,
 double do_QF (const double *,const double *,const double *,const double *,
   const double *);
 
-double sum (const double *, int);
-
 double do_fx (const double *, const double *, const double *, const double *, 
   const double *, const double *);
-	
-void sort (double *, const int *); 
-
-int sort_compare (const void *, const void *);
 
 int conditions (double *, double *, double *, int *, double *, 
   double *, double *, double *);
@@ -61,288 +57,168 @@ void compute_l1_l2 (double *, double *, double *, int *, double *,
 ##############################################################################*/
 
 void fit_fkml (int *method, double *l1, double *l2, double *l3, double *l4, 
-  double x[], int *n, double *penalty_value, double *t1, double *t2,
-  double *l1_tl, double *l2_tl, int *valid_tl, double *obj_result, double *p_to_inverse_eps) {
+  double x[], int *n, double *penalty_value, double *t1, double *t2, double *l1_tl, double *l2_tl,
+  int *valid_tl, double *out, double *p_to_inverse_eps) {
 
 if (*l2 <= 0) {
 				
-  *obj_result = *penalty_value;	
+  *out = *penalty_value;
 	
 } else {
 		
-  /* ================================== ML ===================================*/ 
+  /* ================================== ML =================================== */ 
 		
   if (*method == 1) {
 			    			
-    /* Create an integer to use in the loop */
-    int i;
-		
-    /* Create an array to store log densities */
-    double log_density [*n];
-			
+    /* Initialise variables */
+    int i;              /* Integers */
+    double u, density;  /* Doubles */
+  
+    /* Evaluate objective function */
+    *out = 0.0;
     for (i = 0; i < *n; i++) {
-								
-      /* f(x) is computed in two stages.
-      1. Given x, compute u = F(x)
-      2. Use this u value to compute the density. 
-      (This density then corresponds to f(x)) */				
-			
-      /* 1. Compute u = F(x) */
-      double u = do_Fx (&x[i], l1, l2, l3, l4, p_to_inverse_eps);
-			
-      /* 2. Using this u value, compute the density */
-      double density = do_fx (&u, &x[i], l1, l2, l3, l4);
-			
-      /* Compute log(density) */
+      u = do_Fx (&x[i], l1, l2, l3, l4, p_to_inverse_eps);
+      density = do_fx (&u, &x[i], l1, l2, l3, l4);
       if (density == 0) {
-        log_density[i] = -*penalty_value;
+        *out = -INFINITY; break;
       } else {
-        log_density[i] =  log(density);
+        *out += log(density);
       }
-			 				
     }
-		
-    /* Store value of objective function */
-    /* (maximising likelihood = minimising -1*likelihood) */
-    *obj_result = -sum (log_density, *n);
-			
+    /* Reverse sign and rescale (maximising obj = minimising -obj) */
+    *out = -*out / *n;
   }
 
-  /* ================================== MSP ==================================*/ 
+  /* ================================== MSP ================================== */ 
 				
-  if (*method == 2) {      
-				
-    /* Create an integer to use in the loop */	
-    int i;
-			
-    /* Sort x (rewrites 'x' array) */
-    sort (x, n);					
-			
-    /* Create a vector to store the values of the distribution function */
-    /* (The length is n+2) */
-    double F [*n+2];
-	
-    /* Set first element of array to 0, last element of array to 1 */
-    /* (since F(support min) = 0 and F(support max) = 1) */
-    F[0] = 0;
-    F[*n+1] = 1;
-	
-    /* Compute the distribution function at all other elements */	
-    for (i = 1; i <= *n; i++) {
-      F[i] = do_Fx (&x[i-1], l1, l2, l3, l4, p_to_inverse_eps);
-    }
-	
-    /* Create a vector to store the log of the pairwise differences */
-    /* (There are n+1 pairwise differences) */
-    double log_differences_all [*n+1];
-		
-    /* To compute the differences, we start at 1 and run up to n+1. */		
-    for (i = 1; i <= (*n+1); i++) {			
-      double difference = F[i] - F[i-1];
-      if (difference <= 0) {
-		
-        if (i != (*n+1)) {
-				
-          /* Repeated (ordered) observations produce zero differences.
-          When this happens, replace the difference Di = F(x[i]) - F(x[i-1]) 
-          by the density f(x[i]) (see Cheng and Amin, 1983) */
-          
-          /* Care is required with the indexing. F[i] - F[i-1] corresponds 
-          to F(x[i-1]) - F(x[i-2]). Thus, if the difference is zero, replace
-          this term by f(x[i-1]). */			
-			
-          /* Compute u = F(x[i-1]) */
-          double u = do_Fx (&x[i-1], l1, l2, l3, l4, p_to_inverse_eps);
-							
-          /* Using this u value, compute the density */
-          double density = do_fx (&u, &x[i-1], l1, l2, l3, l4);
-			
-          /* Compute log(density) */
-          if (density == 0) {
-            log_differences_all[i-1] = -*penalty_value;
-          } else {
-            log_differences_all[i-1] =  log(density);
-          }
-			
-        } else {
-					
-          /* i = n+1 */
-          
-          /* When i = n+1, F[i] - F[i-1] corresponds to F[n+1] - F[n] 
-          = 1 - F(x[n-1]). In this case, if the difference is zero, 
-          replace this term by f(x[n-1]). */
+  else if (*method == 2) {
 
-          /* Compute u = F(x[n-1]) */					
-          double u = do_Fx (&x[*n-1], l1, l2, l3, l4, p_to_inverse_eps);
-					 
-          /* Using this u value, compute the density */
-          double density = do_fx (&u, &x[*n-1], l1, l2, l3, l4);
-					
-          /* Compute log(density) */
-          if (density == 0) {
-            log_differences_all[i-1] = -*penalty_value;
-          } else {
-            log_differences_all[i-1] =  log(density);
-          }				
-        }
-				
-      } else {
-        log_differences_all[i-1] = log(difference);
-      }
-			
-    }
-		
-    /* Store value of objective function */
-    *obj_result = -sum (log_differences_all, (*n+1)) / (*n+1);
-				
-  }
+    /* Initialise variables */
+    int i;                         /* Integers */
+    double difference, u, density; /* Doubles */
+    double F [*n];                 /* Double arrays */
 
-  /* ================================== TM ===================================*/
-		
-  if (*method == 3) {    
-
-    /* Create an integer to use in the loop */	
-    int i;
-			
-    /* Sort x (rewrites 'x' array) */
-    sort (x, n);			
-			
-    /* Create a vector to store the values of the distribution function */
-    /* (The length is n+1) */
-    double F [*n+1];
-	
-    /* Set first element of array to 0, last element of array to 1 */
-    /* (since F(support min) = 0 and F(support max) = 1) */
-    F[0] = 0;
-    F[*n] = 1;
-	
-    /* Compute the distribution function at all other elements
-    (The ith value of the distribution function (ie, F[i])
-    is evaluated at 0.5*(x[i-1] + x[i]).) */	
-    for (i = 1; i < *n; i++) {
-      double avg_i = 0.5*(x[i-1]+x[i]);
-      F[i] = do_Fx (&avg_i, l1, l2, l3, l4, p_to_inverse_eps);
-    }
-	
-    /* Create a vector to store the log of the pairwise differences. */
-    /* (There are n pairwise differences) */
-    double log_differences_all [*n];
-		
-    /* To compute the differences, we start at 1 and run up to n. */
-    for (i = 1; i <= *n; i++) {
-      double difference = F[i] - F[i-1];
-      if (difference <= 0) { 
-		
-        if (i != *n) {
-					
-          /* F[i] - F[i-1] corresponds to F{(x[i-1]+x[i])/2} - 
-          F{(x[i-2]+x[i-1])/2}. Thus, if the difference is zero,
-          replace this term by f{(x[i-1]+x[i])/2}. */	
-			
-          /* Compute u = F{(x[i-1]+x[i])/2} */
-          double avg1 = 0.5*(x[i-1]+x[i]);
-          double u = do_Fx (&avg1, l1, l2, l3, l4, p_to_inverse_eps);
-			
-          /* Using this u value, compute the density */
-          double density = do_fx (&u, &avg1, l1, l2, l3, l4);
-			
-          /* Compute log(density) */
-          if (density == 0) {
-            log_differences_all[i-1] = -*penalty_value;
-          } else {
-            log_differences_all[i-1] =  log(density);
-          }	 	
-			
-        } else {
-
-          /* i = n */ 
-          
-          /* When i = n, F[i] - F[i-1] = F[n] - F[n-1]
-          = 1 - F{(x[n-2]+x[n-1])/2}. In this case, if the difference
-          is zero, replace this term by f{(x[n-2]+x[n-1])/2}. */
-
-          /* Compute u = F{(x[n-2]+x[n-1])/2} */
-          double avg2 = 0.5*(x[*n-2]+x[*n-1]);
-          double u = do_Fx (&avg2, l1, l2, l3, l4, p_to_inverse_eps);
-
-          /* Using this u value, compute the density */
-          double density = do_fx (&u, &avg2, l1, l2, l3, l4);
-					
-          /* Compute log(density) */
-          if (density == 0) {
-            log_differences_all[i-1] = -*penalty_value;
-          } else {
-            log_differences_all[i-1] =  log(density);
-          }	 										
-        }
-											
-      } else {
-        log_differences_all[i-1] = log(difference);
-      }
-			
-    }
-    
-    /* Store value of objective function */
-    *obj_result = -sum (log_differences_all, *n) / *n;	
-  
-  }
-
-  /* ================================== SM ===================================*/ 
-		
-  if (*method == 4) {  
-			
-    /* Create an integer to use in the loop */	
-    int i;
-		
-    /* Create empty array */
-    double AD_sum_part [*n];
-			
-    /* Sort x (rewrites 'x' array) */
-    sort (x, n);					
-				
-    /* Calculate the summation part of the AD statistic: */
+    /* Get depths F(x) */  
     for (i = 0; i < *n; i++) {
-      double u_i = do_Fx (&x[i], l1, l2, l3, l4, p_to_inverse_eps);
-      AD_sum_part[i] = (2*i + 1) * log(u_i) + (2 * (*n - i) - 1) * log(1 - u_i);
+      F[i] = do_Fx (&x[i], l1, l2, l3, l4, p_to_inverse_eps);
     } 
-	
-    /* Complete computation of AD: */
-    double AD = -*n - (sum(AD_sum_part, *n) / *n);
-		
-    /* optim doesn't like Inf, so remove it if it occurs */
-    if (AD == INFINITY) {
-      AD = *penalty_value;
+ 
+    /* Evaluate objective function */
+    if (F[0] == 0 || F[*n-1] == 1) { /* Will result in log(0), so check this */
+      *out = -INFINITY;
+    } else { /* Continue calculation */
+      *out = log(F[0]) + log(1 - F[*n-1]); /* Initialise as sum of first and last terms */
+      for (i = 1; i < *n; i++) { /* Sum remaining terms */
+        difference = F[i] - F[i-1];
+        if (difference <= 0) { /* If F[i]-F[i-1] = 0, replace by f[i-1] (ie the density at smaller observation) */
+          u = do_Fx (&x[i-1], l1, l2, l3, l4, p_to_inverse_eps);
+          density = do_fx (&u, &x[i-1], l1, l2, l3, l4);          
+          if (density == 0) {
+            *out = -INFINITY; break;
+          } else {
+            difference = density;
+          }
+        }
+        *out += log(difference);
+      }
     }
+    /* Reverse sign and rescale (maximising obj = minimising -obj) */
+    *out = -*out / (*n+1);
+  }
+
+  /* ================================== TM =================================== */
 		
-    /* Store value of objective function */
-    *obj_result = AD;		
+  else if (*method == 3) {
+
+    /* Initialise variables */
+    int i, n_minus_1 = *n-1;             /* Integers */
+    double difference, u, density;       /* Doubles */
+    double z [n_minus_1], F [n_minus_1]; /* Double arrays */
+
+    /* Get adjacently-averaged data points and corresponding depths */
+    for (i = 0; i < n_minus_1; i++) {
+      z[i] = (x[i]+x[i+1])/2;
+      F[i] = do_Fx (&z[i], l1, l2, l3, l4, p_to_inverse_eps);
+    }
   
+    /* Evaluate objective function */
+    if (F[0] == 0 || F[*n-2] == 1) { /* Will result in log(0), so check this */
+      *out = -INFINITY;
+    } else { /* Continue calculation */
+      *out = log(F[0]) + log(1 - F[*n-2]); /* Initialise as sum of first and last terms */
+      for (i = 1; i < n_minus_1; i++) { /* Sum remaining terms */
+        difference = F[i] - F[i-1];          
+        if (difference <= 0) { /* If F[i]-F[i-1] = 0, replace by f[i-1] (ie the density at smaller observation) */
+          u = do_Fx (&z[i-1], l1, l2, l3, l4, p_to_inverse_eps);
+          density = do_fx (&u, &z[i-1], l1, l2, l3, l4);
+          if (density == 0) {
+            *out = -INFINITY; break;
+          } else {
+            difference = density;
+          }
+        }
+        *out += log(difference);
+      }
+    }
+    /* Reverse sign and rescale (maximising obj = minimising -obj) */
+    *out = -*out / *n;
+  }
+
+  /* ================================== SM =================================== */ 
+		
+  else if (*method == 4) {
+			
+    /* Initialise variables */
+    int i;    /* Integers */
+    double u; /* Doubles */
+
+    /* Evaluate objective function */
+    *out = 0.0;
+    for (i = 0; i < *n; i++) {
+      u = do_Fx (&x[i], l1, l2, l3, l4, p_to_inverse_eps); /* Get depth u = F(x) */
+      if (u == 0 || u == 1) { /* Will result in log(0), so check this */
+        *out = -INFINITY; break;
+      } else { /* Continue calculation */
+        *out += (2*i + 1) * log(u) + (2 * (*n - i) - 1) * log(1 - u);
+      }
+    }
+    *out = -*n - *out / *n;
   }    				
 
-  /* ================================== TL ===================================*/ 
+  /* ================================== TL =================================== */ 
 		
-  if (*method == 5) {  
-			
-  /* Sort x (rewrites x) */
-  sort(x, n);
+  else if (*method == 5) {
 
-  /* Determine if conditions are satisfied */
-  *valid_tl = conditions(l3,l4,x,n,t1,t2,l1_tl,l2_tl);
-
-  /* Check conditions are satisfied */
-  if (*valid_tl == 0) { /* not satisfied */
-    *obj_result = *penalty_value;
-  } else { /* satisfied */
-    double tau3 = TL_moments(3,t1,t2,1,l3,l4) / TL_moments(2,t1,t2,1,l3,l4);
-    double tau4 = TL_moments(4,t1,t2,1,l3,l4) / TL_moments(2,t1,t2,1,l3,l4);
-    double tau3_sample = TL_sample_moments(3,t1,t2,x,n) / 
-      TL_sample_moments(2,t1,t2,x,n);
-    double tau4_sample = TL_sample_moments(4,t1,t2,x,n) / 
-      TL_sample_moments(2,t1,t2,x,n); 
-    *obj_result = pow((tau3-tau3_sample),2) + pow((tau4-tau4_sample),2);
-  }		
-  
+    /* Check if conditions are satisfied */
+    *valid_tl = conditions(l3,l4,x,n,t1,t2,l1_tl,l2_tl);
+    if (*valid_tl == 0) { /* not satisfied */
+      *out = *penalty_value;
+    } else { /* satisfied, evaluate objective function */
+      double tau3 = TL_moments(3,t1,t2,1,l3,l4) / TL_moments(2,t1,t2,1,l3,l4);
+      double tau4 = TL_moments(4,t1,t2,1,l3,l4) / TL_moments(2,t1,t2,1,l3,l4);
+      double tau3_sample = TL_sample_moments(3,t1,t2,x,n) / TL_sample_moments(2,t1,t2,x,n);
+      double tau4_sample = TL_sample_moments(4,t1,t2,x,n) / TL_sample_moments(2,t1,t2,x,n); 
+      *out = pow((tau3-tau3_sample),2) + pow((tau4-tau4_sample),2);
+    }		
   }
+  
+  /* ================================= DLA =================================== */ 
+  	
+  else { /* method = 6 */
+
+    /* Initialise variables */
+    int i;       /* Integers */
+    double p, M; /* Doubles */
+ 
+    /* Evaluate objective function */
+    *out = 0.0; /* Initialise */
+    for (i = 0; i < *n; i++) {
+      p = qbeta(0.5,i+1,*n-i,1,0);
+      M = do_QF (&p,l1,l2,l3,l4);
+      *out += fabs(x[i] - M);
+    }
+  }
+  
 }
 }
 
@@ -548,45 +424,14 @@ if (*x < extreme1 || *x > extreme2) {
 }
 
 /*##############################################################################
-#                         Sum the elements of an array                         #
-##############################################################################*/
-
-double sum (const double array[], int n) {
-	
-int i;
-double count = 0;
-
-for (i = 0; i < n; i++) {
-  count += array[i];
-}
-return(count);
-}
-
-/*##############################################################################
-#                      Sort an array into ascending order                      #
-##############################################################################*/
-
-void sort (double array[], const int *n) {
-qsort (array, *n, sizeof (double), sort_compare);	
-}
-
-int sort_compare (const void *a, const void *b) {
-const double *da = (const double *) a;
-const double *db = (const double *) b;
-return (*da > *db) - (*da < *db);
-}
-
-/*##############################################################################
 #                        Check the TL-moment conditions                        #
 ##############################################################################*/
 
 int conditions (double *l3, double *l4, double x[], int *n, double *t1, 
   double *t2, double *l1_tl, double *l2_tl) {
-  
-int valid = 0; 
 
 /* Check that parameter values, moments and support are valid */
-
+int valid = 0; /* initialise */ 
 if (*l3 > -(1+ *t1) && *l4 > -(1+ *t2)) { /* l3 and l4 valid */ 
   compute_l1_l2 (l3,l4,x,n,t1,t2,l1_tl,l2_tl); /* Compute l1 and l2 */  
   if (TL_moments(2,t1,t2,*l2_tl,l3,l4) > 0) { /* L2 > 0 */
