@@ -5,10 +5,10 @@ dgl <- function(x,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
 # Check the parameters
 if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
-  stop(paste("The parameter values (", paste(lambdas,collapse=", "),
-             ")\ndo not produce a proper distribution with the ",param,
-             " parameterisation - see \ndocumentation for gl.check.lambda",sep=""))
-}
+        stop(paste("The parameter values", lambdas,
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
+        }
 # calculate u=F(x) numerically, then use qdgl
 # Unless x is outside the range, then density should be zero
 extreme<-qgl(c(0,1),lambda1=lambdas,param=param)
@@ -30,10 +30,10 @@ pgl <- function(q,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
 # Check the parameters
 if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
-  stop(paste("The parameter values (", paste(lambdas,collapse=", "),
-             ")\ndo not produce a proper distribution with the ",param,
-             " parameterisation - see \ndocumentation for gl.check.lambda",sep=""))
-}
+	stop(paste("The parameter values", lambda1, lambda2, lambda3,lambda4,
+    	"\ndo not produce a proper distribution with the",param,
+    	"parameterisation - see \ndocumentation for gl.check.lambda"))
+    	} 
 jr <- q; jr[sort.list(q)] <- seq(along=q) 
 order.x<-order(q) 
 xx<-sort(q) 

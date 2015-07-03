@@ -1,6 +1,5 @@
 \name{GeneralisedLambdaDistribution}
 \alias{dgl}
-\alias{qdgl}
 \alias{dqgl}
 \alias{pgl}
 \alias{qgl}
@@ -9,7 +8,7 @@
 \alias{GeneralisedLambdaDistribution}
 \alias{gld}
 \title{The Generalised Lambda Distribution}
-\description{Density, quantile density, distribution function, quantile 
+\description{Density, density quantile, distribution function, quantile 
 function and random generation for the generalised lambda distribution 
 (also known as the asymmetric lambda, or Tukey lambda).  Provides for four
 different parameterisations, the \code{fmkl} (recommended), the \code{rs}, the \code{gpd} and 
@@ -20,8 +19,6 @@ dgl(x, lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
   param = "fkml", lambda5 = NULL, inverse.eps = .Machine$double.eps,
   max.iterations = 500)
 dqgl(p, lambda1, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
-  param = "fkml", lambda5 = NULL)
-qdgl(p, lambda1, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
   param = "fkml", lambda5 = NULL)
 pgl(q, lambda1 = 0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL, 
   param = "fkml", lambda5 = NULL, inverse.eps = .Machine$double.eps,
@@ -94,10 +91,9 @@ of the parameters produce valid statistical distributions.  See
 Another parameterisation, the GPD, chosen by setting \code{param="gpd"} is
 due to van Staden and Loots (2009), with a quantile function:
 
-\deqn{Q(u) = \alpha + \beta ((1-\delta)\frac{(u^\lambda -1)}{\lambda} - \delta\frac{((1-u)^\lambda -1)}{\lambda} )}{Q(u) = alpha + beta 
-( (1-delta)(u^lambda -1)/(lambda) - delta((1-u)^lambda -1)/lambda )}
+\deqn{Q(u) = \alpha + \beta ((1-\delta)\frac{(u^\lambda -1)}{\lambda} - \delta\frac{((1-u)^\lambda -1)}{\lambda} )}{Q(u) = alpha + beta ((1-delta)(u^lambda -1)/(lambda) - delta((1-u)^lambda -1)/lambda }
 for \eqn{\beta > 0}{beta >0} 
-and \eqn{0 \leq \delta \leq 1}{0 <= delta <= 1}.
+and \eqn{-1 \leq \delta \leq 1}{-1 <= delta <= 1}.
 (where the parameters appear in the \code{par} argument to the function in the order \eqn{\alpha,\beta,\delta,\lambda}).  This parameterisation has simpler 
 L-moments than other parameterisations and \eqn{\delta} is a skewness parameter
 and \eqn{\lambda} is a tailweight parameter.
@@ -117,9 +113,9 @@ and \eqn{-1 \leq \lambda_5 \leq 1}{-1 <= lambda5 <= 1}.
 The distribution is defined by its quantile function and its distribution and
 density functions do not exist in closed form.  Accordingly, the results 
 from \code{pgl} and \code{dgl} are the result of numerical solutions to the
-quantile function, using the Newton-Raphson method.  Since the quantile density
-function, \eqn{f(F^{-1}(u))}, does exist, an additional function, \code{qdgl},
-computes this.
+quantile function, using the Newton-Raphson method.  Since the density
+quantile function, \eqn{f(F^{-1}(u))}, does exist, an additional 
+function, \code{dqgl}, computes this.
 
 The functions \code{qdgl.fmkl}, \code{qdgl.rs}, \code{qdgl.fm5},
 \code{qgl.fmkl}, \code{qgl.rs} and \code{qgl.fm5} from versions 1.5 and 
@@ -169,8 +165,7 @@ Van Staden, Paul J., & M.T. Loots. (2009), \emph{Method of L-moment Estimation f
 
 \examples{
 qgl(seq(0,1,0.02),0,1,0.123,-4.3)
-pgl(seq(-2,2,0.2),0,1,-.1,-.2,param="fmkl",inverse.eps=1e-10)
-rgl(21,c(3,2,0.3,-0.1),param="gpd")
-# calculate the probabilities less accurately than normal
+pgl(seq(-2,2,0.2),0,1,-.1,-.2,param="fmkl",inverse.eps=.Machine$double.eps)
+# calculate the probabilities more accurately than normal
 }
 \keyword{distribution}

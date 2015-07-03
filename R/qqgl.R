@@ -16,10 +16,10 @@ if(is.null(lambda2)&&length(lambda1)==1){ #lambda2 is NULL and length(lambda1)=1
 	}
 # Check the parameters
 if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
-  stop(paste("The parameter values (", paste(lambdas,collapse=", "),
-             ")\ndo not produce a proper distribution with the ",param,
-             " parameterisation - see \ndocumentation for gl.check.lambda",sep=""))
-}
+        stop(paste("The parameter values", lambdas,
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
+        }
 if(is.null(lambda.pars2)) { # No second set of parameters - compare to a dataset
 	n <- length(y)
 	}

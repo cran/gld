@@ -1,5 +1,9 @@
-export(dgl,dqgl,gl.check.lambda,pgl,plotglc,plotgld,starship,starship.obj,
-       plot.starship,print.starship,starship.adaptivegrid,summary.starship,
-       qdgl,qgl,qqgl,rgl,fit.fkml)
-import(graphics,stats)
-useDynLib(gld,gl_fmkl_distfunc,gl_rs_distfunc,gl_fm5_distfunc,gl_vsk_distfunc,fit_fkml)
+export(dgl,dqgl,gl.check.lambda,pgl,plotglc,plotgld,
+      print.starship,qdgl,qgl,qqgl,rgl,starship,starship.adaptivegrid,
+      starship.obj,summary.starship,fit.fkml,fit.fkml.moments.val,gld.moments)
+S3method(plot,starship)
+S3method(print,starship)
+S3method(summary,starship)
+import(graphics)
+importFrom("stats", "optim", "IQR", "median", "quantile", "qqplot", "runif")
+useDynLib(gld,gl_fmkl_distfunc,gl_rs_distfunc,gl_fm5_distfunc,gl_vsk_distfunc)

@@ -11,8 +11,7 @@ is a transformation of the uniform distribution.  This method finds the
 parameters that transform the data closest to the uniform distribution.
 This function uses a grid-based search to find a suitable starting point (using
 \code{\link{starship.adaptivegrid}}) then uses \code{\link{optim}} to find
-the parameters that do this.  For the fkml parameterisation, this
-function calls \code{\link{fit.fkml}} to estimate.
+the parameters that do this.
 }
 \usage{
 starship(data, optim.method = "Nelder-Mead", initgrid = NULL, 
@@ -33,21 +32,15 @@ elements,
   
 If it is left as NULL, the default grid depends on the parameterisation.
 For \code{fmkl}, both lcvect and ldvect default to:
-\tabular{cccccccccc}{-0.9\tab -0.5\tab -0.1\tab 0.0\tab 0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
+\tabular{ccccccccccc}{-1.5\tab -1\tab -0.5\tab -0.1\tab 0\tab 0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
 (\code{levect} is NULL).
 
 For \code{rs}, both lcvect and ldvect default to:
 \tabular{cccccc}{0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
 (\code{levect} is NULL).  Note that this restricts the estimates to only part of the region
 of the  \eqn{\lambda_3}{lambda 3}, \eqn{\lambda_4}{lambda 4} plane.
-It is possible to use this function to obtain starship estimates in 
-the other regions of the plane where the \code{rs} parameterisation 
-is valid (see \code{\link{gl.check.lambda}} for details).  
-Just set the values of initgrid to include those regions.
 
-For \code{gpd}, the defaults are: \eqn{\delta}: \tabular{ccc}{0.3\tab 
-0.5\tab 0.7} and \eqn{\lambda}: \tabular{cccccccc}{-1.5\tab-0.5\tab 0.0 
-\tab 0.2 \tab 0.4 \tab 0.8 \tab 1.5\tab 5}
+For \code{gpd}, the defaults are: \eqn{\delta}: \tabular{ccc}{0.3\tab 0.5\tab 0.7} and \eqn{\lambda}: \tabular{cccccccc}{-1.5\tab-.5\tab0\tab.2\tab.4\tab0.8\tab1.5\tab5}
 
 For \code{fm5}, both lcvect and ldvect default to:
 \tabular{ccccccccccc}{-1.5\tab -1\tab -.5\tab -0.1\tab 0\tab 0.1\tab 0.2\tab 0.4\tab 0.8\tab 1\tab 1.5}
@@ -60,13 +53,12 @@ and \code{levect} defaults to:
   \code{fmkl} uses \emph{Freimer, Mudholkar, Kollia and Lin (1988)} (default).
   \code{rs} uses \emph{Ramberg and Schmeiser (1974)}
   \code{fm5} uses the 5 parameter version of the FMKL parameterisation 
-  (paper to appear)
-  \code{gpd} uses the \emph{van Staden and Loots (2009)}, or gpd parameterisation.}
+  (paper to appear)}
 \item{optim.control}{List of options for the optimisation step.  See
 \code{\link{optim}} for details.  If left as NULL, the parscale 
 control is set to scale \eqn{\lambda_1}{lambda 1}
 and \eqn{\lambda_2}{lambda 2} by the absolute value of their starting points.  }
-\item{return.data}{Logical: Should the function return the data (from the argument \code{data})? Not implemented for \code{fkml} parameterisation}
+\item{return.data}{Logical: Should the function return the data (from the argument \code{data})?}
 }
 \details{
 The starship method is described in King & MacGillivray, 1999 (see
@@ -89,9 +81,6 @@ carried out, over a small number of possible parameter values
 this search is given as a starting point for an optimisation of the 
 Anderson-Darling value using optim, with method given by \code{optim.method}
 
-The \code{fkml} parameterisation starship uses seperate (faster) code.  See
-\code{\link{fit.fkml}} for details.  
- 
 See \code{\link{GeneralisedLambdaDistribution}} for details on
 parameterisations.
 }
@@ -100,10 +89,10 @@ parameterisations.
 
 \code{print} prints the estimated values of the parameters, while
 \code{\link[gld]{summary.starship}} prints these by default, but can also provide
-details of the estimation process (from the components \code{grid.results},
-\code{data} and \code{optim} detailed below).
+details of the estimation process (from the components \code{grid.results} and 
+\code{optim} detailed below).
 
-An object of class \code{"starship"} is a list containing the
+An object of class \code{"starship"} is a list containing at least the
 following components:
 
   \item{lambda}{A vector of length 4 (or 5, for the \emph{fm5} parameterisation), giving 
@@ -124,7 +113,6 @@ the estimated parameters, in order,
 \code{\link{starship.adaptivegrid}} for details}
   \item{optim}{output from the optim search -
 \code{\link{optim}} for details}
-   \item{data}{The data, if \code{return.data} is TRUE}
 }
 \references{ Freimer, M., Mudholkar, G. S., Kollia, G. & Lin, C. T. (1988), 
 	\emph{A study of the generalized tukey lambda family}, Communications 
@@ -146,8 +134,6 @@ Computation and Simulation \bold{17}, 315--323.
 }
 \author{Robert King, \email{robert.king@newcastle.edu.au},
 \url{http://tolstoy.newcastle.edu.au/~rking/}
-
-Ben Dean
 
 Darren Wraith}
 \seealso{ 

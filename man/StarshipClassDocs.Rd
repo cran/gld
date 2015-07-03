@@ -1,10 +1,9 @@
 \name{print.starship}
 \alias{summary.starship}
 \alias{print.starship}
-\title{Print (or summarise) the results of estimation of Generalised Lambda Distribution}
-\description{Print (or summarise) the results of estimation
-of the parameters of the Generalised Lambda Distribution, from either
-\code{\link{starship}} or \code{\link{fit.fkml}}}
+\title{Print (or summarise) the results of a starship estimation}
+\description{Print (or summarise) the results of a \code{\link{starship}} estimation
+of the parameters of the Generalised Lambda Distribution}
 \usage{
 \method{summary}{starship}(object, ...)
 
@@ -19,10 +18,6 @@ of the parameters of the Generalised Lambda Distribution, from either
 }
 \details{
 \code{summary} Gives the details of the \code{\link{starship.adaptivegrid}} and \code{optim} steps.
-
-The class is named \code{starship}, after the first estimation method
-implemented in this package, but is used for any estimated generalised
-lambda parameters.
 }
 \references{ Freimer, M., Mudholkar, G. S., Kollia, G. & Lin, C. T. (1988), 
 	\emph{A study of the generalized tukey lambda family}, Communications 

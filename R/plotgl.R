@@ -9,9 +9,9 @@ plotgld <- function(lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
 # Check the parameters
 if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
-        stop(paste("The parameter values (", paste(lambdas,collapse=", "),
-")\ndo not produce a proper distribution with the ",param,
-" parameterisation - see \ndocumentation for gl.check.lambda",sep=""))
+        stop(paste("The parameter values", lambdas,
+"\ndo not produce a proper distribution with the",param,
+"parameterisation - see \ndocumentation for gl.check.lambda"))
         }
 if (is.null(new.plot)) {
 	if (is.null(add)) {new.plot <- TRUE } else {

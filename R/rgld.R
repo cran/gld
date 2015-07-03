@@ -2,12 +2,10 @@ rgl <- function(n,lambda1=0,lambda2=NULL,lambda3=NULL,lambda4=NULL,param="fkml",
 {
 # Check the parameters
 lambdas <- .gl.parameter.tidy(lambda1,lambda2,lambda3,lambda4,param,lambda5)
-# Check the parameters
+# Check the values are OK
 if(!gl.check.lambda(lambdas,param=param,vect=TRUE)) {
-  stop(paste("The parameter values (", paste(lambdas,collapse=", "),
-             ")\ndo not produce a proper distribution with the ",param,
-             " parameterisation - see \ndocumentation for gl.check.lambda",sep=""))
-}
+        stop(paste("The parameter values", lambdas,"\ndo not produce a proper distribution for the",param,"parameterisation \n - see documentation for gl.check.lambda"))
+	}
 # Produce the uniform data
 p <- runif(n)
 # convert to gl
