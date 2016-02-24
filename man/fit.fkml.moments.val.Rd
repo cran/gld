@@ -4,7 +4,7 @@
 FKML type of the generalised lambda distribution using given moment values} 
 \description{Estimates parameters of the generalised lambda distribution
 (FKML type) using the Method of Moments on the basis of moment values 
-(mean, variance, skewness ratio and kurtosis ratio). 
+(mean, variance, skewness ratio and kurtosis ratio (note, not the \emph{excess kurtosis})). 
 }
 \usage{
 fit.fkml.moments.val(moments=c(mean=0, variance=1, skewness=0,
@@ -35,6 +35,14 @@ basis of the parameters \eqn{\lambda_3}{lambda 3} and
 On the basis of these estimates (and the mean and variance), this function
 then estimates 
 \eqn{\hat\lambda_2}{lambda 2} and then \eqn{\hat\lambda_1}{lambda 1}.
+
+Note that the first 4 moments don't uniquely identify members of the 
+generalised \eqn{\lambda}{lambda} distribution.  Typically,
+for a set of moments that correspond to a unimodal gld, there is
+another set of parameters that give a distrbution with the same first 
+4 moments.  This other distribution has a truncated appearance 
+(that is it is on finite support and the density is non-zero at the
+end points).  See the examples below.
 }
 \value{
 A vector containing the parameters of the FKML type generalised lambda;
@@ -74,7 +82,14 @@ Paul van Staden}
 \code{\link{gld.moments}} 
 }
 \examples{
-fit.fkml.moments.val(c(0,1,0,3))
+# Approximation to the standard normal distribution
+norm.approx <- fit.fkml.moments.val(c(0,1,0,3))
+norm.approx
+# Another distribution with the same moments
+another <- fit.fkml.moments.val(c(0,1,0,3),start=c(2,2))
+# Compared
+plotgld(norm.approx,ylim=c(0,0.75),main="Approximation of the standard normal")
+plotgld(another,add=TRUE,col=2)
 }
 \keyword{distribution}
 

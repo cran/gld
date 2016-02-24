@@ -8,3 +8,8 @@ Lmoments from parameters
 Fitting gpd par with L moments
 
 Should moment fitting return object of class starship?
+
+Make lmom a depends rather than suggests
+
+Estimation of FKML with moments for data as well as given moment values
+
