@@ -22,7 +22,7 @@ fit.gpd <- function(x,method="LM",na.rm=TRUE,
     results$cpu <- runtime 
     }
   if (return.data) {results$data = x}
-  class(results) <- "GldGPDFit"
+  class(results) <- "GldFitMultiple"
   results
 }
                    
@@ -44,24 +44,16 @@ fit.gpd.lmom.given <- function(lmoms,n=NULL){
   el.1 <- (3+7*t4)
   if (abs(t3)>=1){problem=paste("No estimates possible, impossible sample Tau 3 value: Tau3=",t3,"outside (-1,1) range")
     warning(problem)
-    res <- list(estA=NA,estB=NA,warn=problem,param="gpd")
-    class(res) <- "GldGPDFit"
-    return(res)}
+    return(list(estA=NA,estB=NA,warn=problem,param="gpd"))}
   if ( (5*t3^2-1)/4 > t4 ){problem = paste("No estimates possible, impossible sample Tau3/Tau4 combination. (5*Tau3^2-1)/4 =",(5*t3^2-1)/4,"must be <= Tau4 =",t4)
     warning(problem)
-    res <- list(estA=NA,estB=NA,warn=problem,param="gpd")
-    class(res) <- "GldGPDFit"
-    return(res)}
+    return(list(estA=NA,estB=NA,warn=problem,param="gpd"))}
   if (t4>=1){problem = paste("No estimates possible, impossible sample Tau 4 value: Tau4=",t4,">= 1")
     warning(problem)
-    res <- list(estA=NA,estB=NA,warn=problem,param="gpd")
-    class(res) <- "GldGPDFit"
-    return(res)}
+    return(list(estA=NA,estB=NA,warn=problem,param="gpd"))}
   if ((t4^2+98*t4+1)<0) {problem = paste("No estimates possible, Tau4 too low (lowest possible value is approx -0.0102051). Tau4 here is ",t4)
     warning(problem)
-    res <- list(estA=NA,estB=NA,warn=problem,param="gpd")
-    class(res) <- "GldGPDFit"
-    return(res)}
+    return(list(estA=NA,estB=NA,warn=problem,param="gpd"))}
   el.2 <- sqrt(t4^2+98*t4+1)
   denom <- (2*(1-t4))
   lambdahatA <- (el.1 - el.2 )/ denom
@@ -90,7 +82,6 @@ fit.gpd.lmom.given <- function(lmoms,n=NULL){
   } else {
     ret <- list(estA=lmomestA,estB=lmomestB,param="gpd") # return just the estimates
   }
-  class(ret) <- "GldGPDFit"
   ret
 }
 
