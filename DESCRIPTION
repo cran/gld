@@ -1,6 +1,6 @@
 Package: gld
-Version: 2.4.2
-Date: 2019-04-28
+Version: 2.5
+Date: 2019-07-04
 Title: Estimation and Use of the Generalised (Tukey) Lambda
         Distribution
 Suggests:
@@ -20,6 +20,6 @@ License: GPL (>= 2)
 URL:
         http://tolstoy.newcastle.edu.au/~rking/publ/rprogs/information.html
 NeedsCompilation: yes
-Packaged: 2019-04-30 05:51:29 UTC; robertking
+Packaged: 2019-07-04 05:54:18 UTC; robertking
 Repository: CRAN
-Date/Publication: 2019-04-30 06:20:04 UTC
+Date/Publication: 2019-07-04 09:50:03 UTC
