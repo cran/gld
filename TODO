@@ -1,5 +1,3 @@
-Add details on region A, B of GPD type
-
 RS parameterisation l3=0 or l4=0 limit results
 
 Check if the sorting in pgl() is worth the computational cost
@@ -7,10 +5,16 @@ Check if the sorting in pgl() is worth the computational cost
 ? support named elements of the vector for parameters ?
 
 Lmoments from parameters
-Fitting gpd par with L moments
 
-Should moment fitting return object of class starship?
+Should moment fitting return object of class starship? Copy class name 
+to FitFKML
 
 Estimation of FKML with moments for data as well as given moment values
 
-Trimmed L Moment estimation of FKML should return the trimming values in the fitted object
+Fix plot.fittedgld to have a slightly higher upper ylim
+
+L Moments for other types in gld.lmoments
+
+New class for FKML estimates - as well as class starship
+
+Change examples in qgl

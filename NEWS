@@ -1,3 +1,11 @@
+2.6
+plot method for starship, plot.starship now defaults to one.page=FALSE
+The fit.fkml function now;
+* Returns and prints trimming values in Trimmed mean estimates
+* Has the LMom method which is trimmed mean with zero trimming
+* Has MoM, method of moments
+Error in documentation for fit.gpd fixed
+
 2.5
 Standard Errors for the L Moment estimates for the GPD type
 fit.gpd defaults to recording cpu time usage (so that it is the
