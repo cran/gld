@@ -1,12 +1,12 @@
-b890d900628f55d608121e3fcd382ba8 *Changelog
-1ead7343e91839bb79cdadface0d53ef *DESCRIPTION
+577f72a49dfcaaef793ce4b4eac3fc25 *Changelog
+59811044e80011bd5283e640f44fbcbe *DESCRIPTION
 fd7c423a972b509d0fa571146c4baa2d *NAMESPACE
-a98530eb9fe032fce16560acf58bb4e0 *NEWS
+e89cf76e87ea53216405a97b0f259a69 *NEWS
 69f7d6088f016e76d7d98456839f6f3a *R/BetaLambdaLambda.R
-0d915418145f4649ff835943858c38ca *R/CheckParameters.R
+35a6ffc56d65df4386778389bd235721 *R/CheckParameters.R
 23d4e8cc272516232142c1ff101f3227 *R/e1071wrap.R
 eb2bafe8500145c953f2ce412c0c9174 *R/fit.fkml.R
-eda5d26df30b49171cf134d0372bfbd5 *R/fit.gpd.R
+b059a835593a4dabce65300c5ab4706e *R/fit.gpd.R
 086af8d36e6692e993c5eba3626b0d27 *R/fxgld.R
 02e2aa20312f1115bb2ddfe36fd9326c *R/gld.gpd.se.R
 ad59437c7b34d1ea58dcf0f8c0a91b68 *R/gldgpdNus.R
@@ -24,7 +24,7 @@ fed4abe956c52b82e573e8578323ebfb *TODO
 351073c0df88168d1241dcc1be94ad5c *man/StarshipClassDocs.Rd
 08719539690800171c7a2d25b31979ca *man/fit.fkml.Rd
 b684b71b31647850f8ba70907ab7092f *man/fit.fkml.moments.val.Rd
-ae1a97366ed1890796852f8020aef526 *man/fit.gpd.Rd
+1a7727c9ad3bc11cd353857566046d1e *man/fit.gpd.Rd
 9eb766b005f99926ddbd1912aad01cca *man/gl.check.lambda.Rd
 de037badf4f61960f909994c0dda7232 *man/gld-Deprecated.Rd
 dc1dfd83146cbb1b80c152782f8d54e9 *man/gld.lmoments.Rd
