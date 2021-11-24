@@ -76,7 +76,6 @@ print.GldGPDFit <- function(x,digits = max(3, getOption("digits") - 3), ...)
     } else {
       cat("Region B only:\n")
       print.default(format(x$estB,digits=digits), print.gap = 2,quote=FALSE)
-      # This needs to be extended once the package calculates SEs
     }
   } else { # region A estimate exists
     if (is.null(x$estB)){
@@ -89,4 +88,28 @@ print.GldGPDFit <- function(x,digits = max(3, getOption("digits") - 3), ...)
       print.default(format(x$estB,digits=digits), print.gap = 2,quote=FALSE)
     }
   }
+}
+
+plot.GldGPDFit <- function(x,data=NULL,ask=NULL,breaks="Sturges",plot.title="default",col1="darkorange",col2="purple",...)
+{
+  if (plot.title == "default") {
+    plot.title <- paste(x$method.name,"fit of",x$param,"type GLD")
+  }
+  # No one.page option here 
+  allpar <- par()
+  opar <- allpar[match(c("ask","mfrow"),names(allpar))]
+  if (is.null(x$data)){
+    if (is.null(data)) {stop("No data to compare to fit.  Use return.data=TRUE")} 
+  } else {
+    if (is.null(data)) {data <- x$data #using data returned by fit.gpd function
+    } else { 
+      warning(paste(substitute(x),"has a data element and the data argument was also given.\nUsing ",paste(substitute(data))," instead of the data element of ",substitute(x))) } }
+  if (is.null(ask)) {
+    if (interactive()) {ask=TRUE} else {ask=FALSE}
+  }
+  if (ask) {par(ask=TRUE)}  ## up to here ## 
+  qqgl(y=data,lambda.pars1=x$lambda,param=x$param,xlab=paste(x$method.name," Fitted Theoretical Quantiles"),main=plot.title) # add which option here
+  hist(data,prob=TRUE,xlab="Data",breaks=breaks,main=plot.title,...)
+  plotgld(lambda1=x$lambda,param=x$param,new.plot=FALSE,...)
+ # No one.page option - check this - but I think we don't need to save par further up this function  if (one.page) {par(opar)} # Return to previous par
 }

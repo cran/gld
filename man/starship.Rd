@@ -130,10 +130,10 @@ Statistics \bold{41}, 353--374
 Owen, D. B. (1988), \emph{The starship}, Communications in Statistics - 
 Computation and Simulation \bold{17}, 315--323.
 
-\url{https://tolstoy.newcastle.edu.au/~rking/gld/}
+\url{https://github.com/newystats/gld/}
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au},
-\url{https://tolstoy.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king.newcastle@gmail.com},
+\url{https://github.com/newystats/}
 
 Darren Wraith}
 \seealso{ 
@@ -141,8 +141,7 @@ Darren Wraith}
 \code{\link{starship.obj}} 
 }
 \examples{
-data <- rgl(100,0,1,.2,.2)
-starship(data,optim.method="Nelder-Mead",initgrid=list(lcvect=(0:4)/10,
-ldvect=(0:4)/10))
+exampledata <- rgl(300,c(0,1,0.2,0))
+starship(exampledata)
 }
 \keyword{distribution}

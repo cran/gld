@@ -3,9 +3,11 @@
 \alias{fit.gpd.lmom}
 \alias{fit.gpd.lmom.given} 
 \title{Estimate parameters of the GPD type generalised lambda distribution}
-\description{Estimates parameters of the GPD type generalised \eqn{\lambda}{lambda} Distribution.  Currently, only estimation via method of L moments is implemented.
+\description{Estimates parameters of the GPD type generalised \eqn{\lambda}{lambda} Distribution.  Estimation is via method of L moments or the starship method.
 
 The Method of L-Moments estimates for the GPD type are the only estimates for any generalised lambda distribution type with closed form expressions, and the only with algebraic results for standard errors of the estimates.
+
+For further details on the starship method, see \code{\link{starship}}.
 }
 \usage{
 fit.gpd(x, method = "LM", na.rm = TRUE, record.cpu.time = TRUE, return.data = FALSE,
@@ -15,8 +17,7 @@ fit.gpd.lmom.given(lmoms, n = NULL,LambdaZeroEpsilon=1e-15)
 }
 \arguments{
   \item{x}{Data to be fitted, as a vector}
-  \item{method}{A character string, to select the estimation method.  Only Method of
-  L-Moments "LM" is implemented.}
+  \item{method}{A character string, to select the estimation method. The available methods are 1. "LM" for Method of L-Moments, 2. "SM" or "starship" for the Starship method.}
   \item{na.rm}{Logical: Should missing values be removed?}
   \item{record.cpu.time}{Logical: should the CPU time used in fitting be recorded in the fitted model object?}
   \item{return.data}{Logical: Should the function return the data (from the argument \code{x})?}
@@ -25,7 +26,9 @@ fit.gpd.lmom.given(lmoms, n = NULL,LambdaZeroEpsilon=1e-15)
   \item{n}{the sample size, defaults to NULL}
   \item{LambdaZeroEpsilon}{tolerance for lambda estimate of zero}
 }
-\details{The method of L-Moments equates sample L-Moments with expressions for the L-Moments of the GPD type GLD.  Closed form expressions exist to give these estimates.
+\details{The starship method calls the \code{\link{starship}} function - see its help for more details.
+
+The method of L-Moments equates sample L-Moments with expressions for the L-Moments of the GPD type GLD.  Closed form expressions exist to give these estimates.
 
 For many values there are two possible estimates for the same L Moment
 values, one in each of two regions of the GPD GLD parameter space, 
@@ -59,6 +62,7 @@ estimates.  If this is the case, the function also issues a \code{\link{warning}
   \item{data}{The data, if \code{return.data} is TRUE (only for \code{fit.gpd}).}
   \item{param}{The character \code{"gpd"}, indicating the GPD type of the
   generalised lambda distribution.}
+  \item{starship}{The value returned by \code{\link{starship}}, if the \code{starship} method is used.}
 
   Each of the estimate elements (if they are not NULL) are either a vector of length 4, or a 4 by 2 matrix if standard errors are calculated. The elements of the vector, or rows of the matrix are the estimated parameters, in order;
   \item{\eqn{\alpha}{alpha}}{location parameter}
@@ -71,7 +75,7 @@ estimates.  If this is the case, the function also issues a \code{\link{warning}
 Van Staden, Paul J., & M.T. Loots. (2009), \emph{Method of L-moment Estimation for the Generalized Lambda Distribution}. In Proceedings of the Third Annual ASEARC Conference. Callaghan, NSW 2308 Australia: School of Mathematical and Physical Sciences, University of Newcastle.
 
 }
-\author{Robert King, \email{robert.king@newcastle.edu.au}, \url{https://tolstoy.newcastle.edu.au/~rking/}
+\author{Robert King, \email{robert.king.newcastle@gmail.com}, \url{https://github.com/newystats/}
 
 Paul van Staden}
 \seealso{
