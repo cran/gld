@@ -45,7 +45,8 @@ rgl(n, lambda1=0, lambda2 = NULL, lambda3 = NULL, lambda4 = NULL,
  following arguments
  
  \emph{Note that the numbering of the \eqn{\lambda}{lambda} parameters for
- the \emph{fmkl} parameterisation is different to that used by Freimer, 
+ the fmkl
+ parameterisation is different to that used by Freimer, 
  Mudholkar, Kollia and Lin.  Note also that in the \code{gpd} parameterisation, the four parameters are labelled \eqn{\alpha, \beta, \delta, \lambda}.}
 	}
   \item{lambda2}{\eqn{\lambda_2}{lambda 2} - scale parameter (\eqn{\beta} for \code{gpd})}
@@ -143,7 +144,7 @@ Freimer, M., Mudholkar, G. S., Kollia, G. & Lin, C. T. (1988),
 	\emph{A study of the generalized tukey lambda family}, Communications 
 	in Statistics - Theory and Methods \bold{17}, 3547--3567.
 
-Gilchrist, Warren G. (2000), \emph{Statistical Modelling with Quantile Functions}, Chapman \& Hall
+Gilchrist, Warren G. (2000), \emph{Statistical Modelling with Quantile Functions}, Chapman and Hall
 
 Karian, Z.A., Dudewicz, E.J., and McDonald, P. (1996), \emph{The extended 
     generalized lambda distribution system for fitting distributions to data: 
